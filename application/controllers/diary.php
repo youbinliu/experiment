@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) die();
-class Logs extends Main_Controller {
+class Diary extends Main_Controller {
 	
 	public function add(){
-		$data["menu"] = "logs";
+		$data["menu"] = "diary";
 		$data['sidebar'] = "add";
 		$data['action'] = "add";
 		
@@ -31,7 +31,7 @@ class Logs extends Main_Controller {
 	}
 	
 	public function showlist(){
-		$data["menu"] = "logs";
+		$data["menu"] = "diary";
 		$data['sidebar'] = "showlist";
 		
 		$this->load->view('include/header');
@@ -41,7 +41,7 @@ class Logs extends Main_Controller {
 	}
 	
 	public function system(){
-		$data["menu"] = "logs";
+		$data["menu"] = "diary";
 		$data['sidebar'] = "system";
 		
 		$this->load->view('include/header');

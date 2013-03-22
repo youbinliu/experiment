@@ -18,15 +18,24 @@ class Home extends Main_Controller {
 	
 	
 	public function index(){
+		$data['islogin'] = 0;
+		if( $this->session->userdata('login_in')){
+			$data['islogin'] = 1;
+		}	
+		
 		$data['experiment_list'] = $this->experiment_model->get_all_experiments();
-		$this->load->view('homepage/homehead');
+		$this->load->view('homepage/homehead',$data);
 		$this->load->view('homepage/allexplist',$data);
 		$this->load->view('include/footer');
 	}
 	
 	public function show($exp_id){
+		$data['islogin'] = 0;
+		if( $this->session->userdata('login_in')){
+			$data['islogin'] = 1;
+		}	
 		$data['experiment'] = $this->experiment_model->get_one_experiment_byid($exp_id);
-		$this->load->view('homepage/homehead');
+		$this->load->view('homepage/homehead',$data);
 		$this->load->view('homepage/showexp',$data);
 		$this->load->view('include/footer');
 	}

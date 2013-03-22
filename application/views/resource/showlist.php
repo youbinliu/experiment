@@ -31,7 +31,7 @@
 				</div>
 				<?php if(!empty($vms_list)):
 					foreach ($vms_list as $id=>$vm){
-						echo '<div class="contaniner page-header">';
+						echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';
 						echo '<h4>'.$experiment_list[$vm['exp_id']].' (one-'.$id.') </h4>';
 						echo '<a href="javascript:;" class="a_info"'?><?php echo 'id="getvmdetail&'.$id.'"><span id="getvmdetail&'.$id.'">显示/刷新访问信息</span></a>';
 						echo '<BR>';

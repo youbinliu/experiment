@@ -16,20 +16,20 @@
             <?php endif; ?>
     	  		<?php if (!empty($all_experiments) ):
     	  		    foreach ( $all_experiments as $id=>$experiment){
-    	  		        echo '<div class="contaniner page-header">';   
+    	  		        echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';   
     	  		      	echo '<h4>'.$experiment['title'].'</h4>';
     	  		        echo '<i class="icon-tag"></i>'.$experiment['type'].'<br>';
     	  		        echo '<i class="icon-time"></i>'.$experiment['start_time'].'<br>';
     	  		        echo '<i class="icon-home"></i>';
     	  		        echo '<a href="'.base_url("exp/show/".$id).'">详细</a>';
     	  		        echo '<i class="icon-edit"></i>';
-    	  		        echo '<a href="'.base_url("exp/edit/".$id).'">完善</a>';
+    	  		        echo '<a href="'.base_url("exp/edit/".$id).'">完善信息</a>';
     	  		        echo '<i class=" icon-remove"></i>';
     	  		        echo '<a href="'.base_url("exp/delete/".$id).'" data-confirm="确认删除该实验？ <br /> 注意，删除实验前请删除该实验所申请的所有资源，否则会导致删除错误！">删除</a>';
     	  		        echo '<i class=" icon-wrench"></i>';
     	  		        echo '<a href="'.base_url("resource/filtershowlist/".$id).'">资源管理</a>';
     	  		        echo '<br>';
-    	  		        echo '<i class="icon-file"></i>'.$experiment['describe'].'<br></div>';
+    	  		        echo '<div style="width:400px">'.substr($experiment['describe'],0,400).'</div><br></div>';
     	  		    }
                 endif; ?>
 		  </div>

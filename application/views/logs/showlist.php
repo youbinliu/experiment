@@ -22,14 +22,14 @@
 				</div>
 				<?php if(!empty($all_diary) && !empty($experiment_list)):
 					foreach ($all_diary as $id=>$diary){
-						echo '<div class="contaniner page-header">';
+						echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';
 						echo '<h4>'.$diary['title'].'</h4>';
 						echo '<i class="icon-tag"></i> '.$experiment_list[$diary['exp_id']].'<br>';
 						echo '<i class="icon-time"></i>'.$diary['time'].'<br>';
 						echo '<i class="icon-home"></i><a href="'.base_url("diary/show").'/'.$id.'">详细</a>';
 						echo '<i class="icon-edit"></i><a href="'.base_url("diary/edit").'/'.$id.'">编辑</a>';
 						echo '<i class="icon-remove"></i><a href="'.base_url("diary/delete").'/'.$id.'" data-confirm="确定删除该日志？">删除</a>';
-						echo '<br><i class="icon-file"></i>'.nl2br(str_replace(" ","&nbsp;",$diary['content'])).'</div>';
+						echo '<br><div style="width:400px">'.substr($diary['content'],0,400).'</div></div>';
 					}
 				endif; ?>
 		  </div>

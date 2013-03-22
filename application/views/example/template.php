@@ -16,7 +16,7 @@
             <?php endif; ?>
           	    	<?php if(!empty($template_list)):
 					    foreach ($template_list as $id=>$template){
-					        echo '<div class="contaniner page-header">';
+					        echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';
 					        echo '<h4>'.$template['name'].'</h4>';
 					        echo '<i class="icon-filter"></i><b> VCPU个数：'.$template['cpu'].'</b>';
 					        echo '<i class="icon-hdd"></i> <b>内存：'.$template['memory'].'</b>';

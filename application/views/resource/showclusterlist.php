@@ -31,7 +31,7 @@
 				</div>
 				<?php if(!empty($cluster_list)):
 					foreach ($cluster_list as $id=>$cluster){
-						echo '<div class="contaniner page-header">';
+						echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';
 						echo '<h4>'.$experiment_list[$cluster['exp_id']].' (集群编号-'.$id.') </h4>';
 						echo '<i class="icon-time"></i>创建时间： '?><?php if(!empty($cluster['start_time'])) echo $cluster['start_time']; ?><?php echo ' ';
 						echo '<i class="icon-refresh"></i> <span style="color:green"> 状态：'?><?php if(!empty($cluster['status'])) echo $cluster['status']; ?><?php echo '</span>';

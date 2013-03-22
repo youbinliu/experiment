@@ -30,8 +30,12 @@
 		<h1>重点学科资源云的实验平台</h1>
 		<p class="lead">重点学科资源云的实验平台，说明部分</p>
 		<a class="btn btn-large btn-danger" href="<?php echo base_url('/home/index');?>">首页</a>
+		<?php if($islogin != 1){?>
 		<a class="btn btn-large btn-success" href="<?php echo base_url('/home/show_login');?>">登陆</a>
 		<a class="btn btn-large btn-success" href="<?php echo base_url('/register/show_register');?>">注册</a>
+		<?php }else{?>
+			<a class="btn btn-large btn-success" href="<?php echo base_url('/exp/showlist');?>">实验主页</a>
+		<?php }?>
 	</div>
 	<hr>
-	<div class="row-fluid marketing">
+	<div class="row">

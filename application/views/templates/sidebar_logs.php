@@ -5,7 +5,7 @@
 	 
 		<li <?php if($sidebar == "showlist")echo 'class="active"'; ?>><a href="<?php echo base_url("diary/showlist") ;?>"><i class="icon-chevron-right"></i>所有日记</a></li> 
 	 	
-	 	<li <?php if($sidebar == "system")echo 'class="active"'; ?>><a href="<?php echo base_url("diary/system"); ?>"><i class="icon-chevron-right"></i>系统日志</a></li> 
+		<li <?php if($sidebar == "system")echo 'class="active"'; ?>><a href="<?php echo base_url("diary/system"); ?>"><i class="icon-chevron-right"></i>系统日志</a></li> 
 	   
 	</ul> 
 </div> 

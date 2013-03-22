@@ -1,51 +1,55 @@
  <!-- Begin page content --> 
-      <div class="container-fluid"> 
+<div class="container-fluid"> 
          
-        <div class="row-fluid"> 
-      		<?php $this->load->view('templates/sidebar_res');?>
+		<div class="row-fluid"> 
+			<?php $this->load->view('templates/sidebar_res');?>
       		
-      		<div class="span9"> 
-      			
-      			<div class="container" style="height: 20px;margin-top: 30px;"> 
-    	  			<form method="post" action="/search"> 
-	          			<div class="input-prepend input-append" id="searchwrap">          				 
+			<div class="span9"> 
+				<?php if (!empty($error)): ?>
+				<div class="alert alert-error">
+					<b>错误!</b> <?php echo $error ?>
+				</div>
+				<?php elseif (!empty($info)): ?>
+				<div class="alert alert-info">
+					<b>信息.</b> <?php echo $info ?>
+				</div>
+				<?php endif; ?>       			
+				<div class="container" style="height: 20px;margin-top: 30px;"> 
+					<form method="post" action="<?php echo base_url("/resource/showclusterlist");?>"> 
+						<div class="input-prepend input-append" id="searchwrap">          				 
 							<span class="add-on">选择实验</span> 
-							<select class="span5" style="width:300px;">
-					                <option>XXXXXX实验标题</option>
-					                <option>aaaaaa实验标题</option>
-					      </select>
+							<select name="experiment_id" class="span5" style="width:300px;">
+							<?php if(!empty($experiment_list)):
+								foreach ($experiment_list as $id=>$title){
+									echo '<option '?><?php if(!empty($eid) && $eid==$id) echo "selected='selected'" ;?><?php echo 'value="'.$id.'">'.$title.'</option>';
+								}
+							endif;?>
+							</select>
 							<button class="btn btn-primary" type="submit">筛选</button> 
 						</div> 
 					</form> 
 				</div>
-				
-    	  			<?php for($i = 0; $i <10 ;$i++){?>
-                        <div class="contaniner page-header"> 
-	        				<h4>实验名XXX（集群编号one-10301）</h4> 	    					
-	    					<i class="icon-time"></i> 2013-03-05 12:13
-	    					<i class="icon-refresh"></i> <span style="color:green">RUNNING</span>
-	    					<BR>
-	    					<i class="icon-filter"></i> 主cpu 2
-	    					<i class="icon-filter"></i> 从cpu 2
-	    					<i class="  icon-hdd"></i> 主内存 1024M
-	    					<i class="  icon-hdd"></i> 从内存 1024M
-	    					<i class="icon-leaf"></i> 从节点数 3	    					
-	    					<br> 	    					
-	    					<i class="icon-align-left"></i> ip地址：iaas.hustcloud.com
-	    					<i class="icon-download"></i> <a href=""> ssh-key </a>	   
-	    					<!--<br>
-	    					<i class="icon-play"></i><a href=""> resume </a>	    					
-	    					<i class="icon-pause"></i><a href=""> stop </a>
-	    					<i class=" icon-stop"></i><a href=""> shutdown </a>
-	    					-->
-	    				</div> 
-	    				
-	    		<?php }?>
-                     
-                        
-                     
-		  </div>
+				<?php if(!empty($cluster_list)):
+					foreach ($cluster_list as $id=>$cluster){
+						echo '<div class="contaniner page-header">';
+						echo '<h4>'.$experiment_list[$cluster['exp_id']].' (集群编号-'.$id.') </h4>';
+						echo '<i class="icon-time"></i>创建时间： '?><?php if(!empty($cluster['start_time'])) echo $cluster['start_time']; ?><?php echo ' ';
+						echo '<i class="icon-refresh"></i> <span style="color:green"> 状态：'?><?php if(!empty($cluster['status'])) echo $cluster['status']; ?><?php echo '</span>';
+						echo '<BR>';
+						echo '<i class="icon-filter"></i> 主cpu：'.$cluster['master_vcpu'].' ';
+						echo '<i class="icon-filter"></i> 从cpu：'.$cluster['slave_vcpu'].' ';
+						echo '<i class="  icon-hdd"></i> 主内存 ：'.$cluster['master_mem'].' ';
+						echo '<i class="  icon-hdd"></i> 从内存 ：'.$cluster['slave_mem'].' ';
+						echo '<i class="icon-leaf"></i> 从节点数 ：'.$cluster['slave_count'].' ';
+						echo '<BR>';       
+						echo '<i class="icon-align-left"></i>主节点ipv6：'?><?php if(!empty($cluster['master_ipv6'])) echo $cluster['master_ipv6']; ?><?php echo ' ';
+						echo '<i class="icon-remove"></i><a href="'.base_url("/resource/deletecluster").'/'.$id.'" data-confirm="确定删除该虚拟集群？"> 删除虚拟机群 </a>';
+						echo '<i class="icon-download"></i><a href="'.base_url("/resource/downloadclusterkey").'/'.$id.'"> 主节点ssh-key </a>';
+						echo '</div>';
+					}
+				endif; ?>
+			</div>
       	
-        </div>
-      </div>
+		</div>
+	</div>
 </div>

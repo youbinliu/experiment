@@ -7,7 +7,7 @@
 	 
 		<li <?php if($sidebar == "finished")echo 'class="active"'; ?>><a href="<?php echo base_url("exp/showlist/finished") ;?>"><i class="icon-chevron-right"></i>已完成的实验</a></li> 
 	  	
-	  	<li <?php if($sidebar == "unfinished")echo 'class="active"'; ?>><a href="<?php echo base_url("exp/showlist/unfinished"); ?>"><i class="icon-chevron-right"></i>未完成的实验</a></li> 
+		<li <?php if($sidebar == "unfinished")echo 'class="active"'; ?>><a href="<?php echo base_url("exp/showlist/unfinished"); ?>"><i class="icon-chevron-right"></i>未完成的实验</a></li> 
 	   
 	</ul> 
 </div> 

@@ -6,35 +6,32 @@
       		
       		<div class="span9"> 
       			<div class="container" style="height: 20px;margin-top: 30px;"> 
-    	  			<form method="post" action="/search"> 
+    	  			<form method="post" action="<?php echo base_url("/diary/showlist");?>"> 
 	          			<div class="input-prepend input-append" id="searchwrap">          				 
 							<span class="add-on">选择实验</span> 
-							<select class="span5" style="width:300px;">
-					                <option>XXXXXX实验标题</option>
-					                <option>aaaaaa实验标题</option>
-					      </select>
+							<select name="experiment_id" class="span5" style="width:300px;">
+                                  <?php if(!empty($experiment_list)):
+                                      foreach ($experiment_list as $id=>$title){
+                                          echo '<option '?><?php if(!empty($eid) && $eid==$id) echo "selected='selected'" ;?><?php echo 'value="'.$id.'">'.$title.'</option>';
+                                      }
+                                  endif;?>
+					      	</select>
 							<button class="btn btn-primary" type="submit">筛选</button> 
 						</div> 
 					</form> 
 				</div>
-    	  		<?php for($i = 0;$i<10;$i++){?>
-                        <div class="contaniner page-header"> 
-	        				<h4>重大研究成果</h4> 
-	    					<i class="icon-tag"></i> xxx实验<br> 
-	    					<i class="icon-time"></i>2013-03-05 12:13<br>
-	    					 <i class="icon-home"></i> 
-	    					<a href="<?php echo base_url("exp/show/1")?>">详细</a>  
-	    					<i class="icon-edit"></i> 
-	    					<a href="<?php echo base_url("exp/edit/1")?>">编辑</a>  
-	    					<i class=" icon-remove"></i>
-	    					<a href="<?php echo base_url("exp/delete/1")?>">删除</a>	    					
-	    					<br> 
-	    					
-	    					<i class="icon-file"></i>
-	    					详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯详细内容嘛....就是这些咯
-	    					</div> 
-                     <?php } ?>
-                     
+				<?php if(!empty($all_diary) && !empty($experiment_list)):
+					foreach ($all_diary as $id=>$diary){
+						echo '<div class="contaniner page-header">';
+						echo '<h4>'.$diary['title'].'</h4>';
+						echo '<i class="icon-tag"></i> '.$experiment_list[$diary['exp_id']].'<br>';
+						echo '<i class="icon-time"></i>'.$diary['time'].'<br>';
+						echo '<i class="icon-home"></i><a href="'.base_url("diary/show").'/'.$id.'">详细</a>';
+						echo '<i class="icon-edit"></i><a href="'.base_url("diary/edit").'/'.$id.'">编辑</a>';
+						echo '<i class="icon-remove"></i><a href="'.base_url("diary/delete").'/'.$id.'" data-confirm="确定删除该日志？">删除</a>';
+						echo '<br><i class="icon-file"></i>'.nl2br(str_replace(" ","&nbsp;",$diary['content'])).'</div>';
+					}
+				endif; ?>
 		  </div>
       	
         </div>

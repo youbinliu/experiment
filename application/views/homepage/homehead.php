@@ -1,3 +1,4 @@
+ <!-- Begin page content --> 
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -18,9 +19,19 @@
    <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/jquery-ui.min.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
-   <script src="<?php echo base_url('assets/js/experiment.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/highcharts.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/custom.js') ?>"></script>
 </head>
-<body>
+<body style="padding-top:0px;">
  <div id="wrap">
+ <div class="container-narrow">
+	
+	<div class="jumbotron">
+		<h1>重点学科资源云的实验平台</h1>
+		<p class="lead">重点学科资源云的实验平台，说明部分</p>
+		<a class="btn btn-large btn-danger" href="<?php echo base_url('/home/index');?>">首页</a>
+		<a class="btn btn-large btn-success" href="<?php echo base_url('/home/show_login');?>">登陆</a>
+		<a class="btn btn-large btn-success" href="<?php echo base_url('/register/show_register');?>">注册</a>
+	</div>
+	<hr>
+	<div class="row-fluid marketing">

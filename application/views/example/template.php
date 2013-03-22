@@ -4,22 +4,31 @@
         <div class="row-fluid"> 
       		<?php $this->load->view('templates/sidebar_exa');?>
       		
-      		<div class="span9"> 
-    	  		<?php for($i = 0 ; $i<10 ; $i ++){ ?>
-                        <div class="contaniner page-header"> 
-	        				<h4>Blast </h4> 
-	        				
-	    					<i class="icon-filter"></i><b> VCPU 2</b>
-	    					<i class="icon-hdd"></i> <b>内存 1024M</b>
-	    					<i class="icon-hdd"></i><b> 磁盘 10G</b> 
-	    					<i class="icon-wrench"></i>
-	    					<a href="<?php echo base_url("example/add/1");?>">使用</a>
-	    					<br> 	    					
-	    					
-	    					<i class="icon-file"></i>
-	    					The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches. BLAST can be used to infer functional and evolutionary relationships between sequences as well as help identify members of gene families. Command: blast -p $1 -d $2 -i $3 -o $4, $1 is blastn,blastx,blastp,tblastn or tblastx; $2 is database file; $3 is input file; $4 is output file. More detail: http://blast.ncbi.nlm.nih.gov/Blast.cgi
-	    				</div> 
-                     <?php } ?>
+      		<div class="span9">
+      		<?php if (!empty($error)): ?>
+      			<div class="alert alert-error">
+         			<b>错误!</b> <?php echo $error ?>
+      			</div>
+            <?php elseif (!empty($info)): ?>
+      			<div class="alert alert-info">
+         			<b>信息.</b> <?php echo $info ?>
+      			</div>
+            <?php endif; ?>
+          	    	<?php if(!empty($template_list)):
+					    foreach ($template_list as $id=>$template){
+					        echo '<div class="contaniner page-header">';
+					        echo '<h4>'.$template['name'].'</h4>';
+					        echo '<i class="icon-filter"></i><b> VCPU个数：'.$template['cpu'].'</b>';
+					        echo '<i class="icon-hdd"></i> <b>内存：'.$template['memory'].'</b>';
+					        echo '<i class="icon-hdd"></i><b> 磁盘 ：'.$template['storage'].'</b>';
+					        echo '<i class="icon-wrench"></i>';
+					        echo '<a href="';?><?php echo base_url("example/add");?><?php echo '/'.$id.'">使用</a>';
+					        echo '<BR>';
+					        echo '<i class="icon-file"></i>'.$template['description'];
+					        echo '</div>';
+					    }
+					endif; ?>
+
 		  </div>
       	
         </div>

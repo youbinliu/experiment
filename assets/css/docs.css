@@ -80,7 +80,32 @@ hr.soften {
   border: 0;
 }
 
-
+/* For vms statistic data total */
+.subtable-title {
+    background-image: url("/public/images/subtable-title-img.jpg");
+    color: black;
+    font-size: 17px;
+    padding: 7px 15px;
+    text-align: left;
+    text-shadow: 2px 2px 7px #D4F9FC;
+    width: 97%;
+}
+.subtable td {
+    border-bottom: 1px solid #FFFFFF;
+    color: #000000;
+    font-size: 14px;
+    padding: 7px 15px;
+    text-align: left;
+}
+.subtable td.head {
+    font-weight: bold;
+    letter-spacing: 0.9px;
+    width: 10%;
+}
+.subtable td.info {
+    letter-spacing: 0.1mm;
+    width: 30%;
+}
 
 /* Jumbotrons
 -------------------------------------------------- */
@@ -166,7 +191,7 @@ hr.soften {
   position: relative;
   z-index: 2;
 }
-.jumbotron:after {
+/* .jumbotron:after {
   content: '';
   display: block;
   position: absolute;
@@ -176,7 +201,7 @@ hr.soften {
   left: 0;
   background: url(../img/bs-docs-masthead-pattern.png) repeat center center;
   opacity: .4;
-}
+} */
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (   min--moz-device-pixel-ratio: 2),
@@ -191,7 +216,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 70px 0 80px;
+  /*padding: 70px 0 80px;*/
   margin-bottom: 0;
   color: #fff;
 }

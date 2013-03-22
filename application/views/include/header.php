@@ -21,6 +21,9 @@
    <script src="<?php echo base_url('assets/js/experiment.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/highcharts.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/custom.js') ?>"></script>
+   
+   <script type="text/javascript" charset="utf-8" src="<?=base_url('ueditor/editor_config.js')?>"></script>
+   <script type="text/javascript" charset="utf-8" src="<?=base_url('ueditor/editor_all_min.js')?>"></script>
 </head>
 <body>
  <div id="wrap">

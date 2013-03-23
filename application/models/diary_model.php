@@ -104,7 +104,7 @@ class Diary_model extends CI_Model
 	 */
 	public function get_all_diary_byuser($user_id){
 		$diary_list = array();
-		$query = $this->db->get_where('diary',array('user_id' => $user_id));
+		$query = $this->db->order_by('time','desc')->get_where('diary',array('user_id' => $user_id));
 		if($query->num_rows() > 0)
 		{
 			foreach ($query->result() as $row) {
@@ -121,7 +121,7 @@ class Diary_model extends CI_Model
 	
 	public function get_user_diary_by_experiment($user_id,$exp_id){
 		$diary_list = array();
-		$query = $this->db->get_where('diary',array('user_id' => $user_id,'exp_id'=>$exp_id));
+		$query = $this->db->order_by('time','desc')->get_where('diary',array('user_id' => $user_id,'exp_id'=>$exp_id));
 		if($query->num_rows() > 0)
 		{
 			foreach ($query->result() as $row) {

@@ -301,7 +301,6 @@ class Resource extends Main_Controller {
      	    $responce = $this->crane_openapi->request_iaas($para_data);
      	    if($action == 'shutdown' && !array_key_exists('error', $responce))
      	    {
-     	    var_dump("OKs");
      	        $this->vm_info_model->delete_vm($vm_id);
      	        redirect("resource/showlist");
      	    }
@@ -760,6 +759,128 @@ class Resource extends Main_Controller {
 		$this->load->view('include/footer');
 	}
 	
+	//About Image
+	public function saveimage($vm_id){
+		$data["menu"] = "resource";
+		$data['sidebar'] = "imagelist";
+		$username = $this->session->userdata('username');
+		$data['username'] = $username ? $username : '无法获得';
+		$data['vm_id'] = $vm_id;
+		
+     	$this->load->view('include/header');
+		$this->load->view('templates/menu',$data);
+		$this->load->view('resource/saveimage',$data);
+		$this->load->view('include/footer');
+	}
+	
+	public function dosaveimage(){
+		$username = $this->session->userdata('username');
+		$data['username'] = $username ? $username : '无法获得';
+		
+		$data["menu"] = "resource";
+		$data['sidebar'] = "imagelist";
+
+		$this->form_validation->set_error_delimiters('<div class="text-error">', '</div>');
+		if($this->form_validation->run('save_image') == FALSE)
+		{
+	     	$this->load->view('include/header');
+			$this->load->view('templates/menu',$data);
+			$this->load->view('resource/saveimage',$data);
+			$this->load->view('include/footer');
+			return;
+		}
+		$vm_id = $this->input->post('vm_id');
+		$image_name = $this->input->post('image_name');
+		$image_describe = $this->input->post('image_describe');
+		
+		$para_data = array(
+				'method'=>'create_vm_template',
+				'template_name' => $image_name,
+				'description' => $image_describe,
+				'user_name' => $username,
+				'site'=>'hust',
+				'vm_id' => $vm_id
+		);
+// 		var_dump($para_data);
+// 		return;
+		
+		$responce = $this->crane_openapi->request_iaas($para_data);
+		if( array_key_exists('error', $responce))
+		{
+			$data['error'] = '保存实验环境失败:'.$responce['error'];;
+	     	$this->load->view('include/header');
+			$this->load->view('templates/menu',$data);
+			$this->load->view('resource/saveimage',$data);
+			$this->load->view('include/footer');
+			return;
+		}
+		redirect("resource/imagelist");
+	}
+	
+	public function imagelist($data = array()){
+		$data["menu"] = "resource";
+		$data['sidebar'] = "imagelist";
+		$username = $this->session->userdata('username');
+		$data['username'] = $username ? $username : '无法获得';
+		
+		$image_list = array();
+		$para_data = array(
+				'method' => 'query_template',
+				'site' => 'hust',
+				'user_name' => $username
+		);
+		$responce = $this->crane_openapi->request_iaas($para_data);
+		if( array_key_exists('error', $responce))
+		{
+			$data['error'] = '获取实验环境失败:'.$responce['error'];;
+			$this->load->view('include/header');
+			$this->load->view('templates/menu',$data);
+			$this->load->view('resource/imagelist',$data);
+			$this->load->view('include/footer');
+			return;
+		}
+		foreach( $responce['template_list'] as $template){
+			if( $template['user_name'] == $username){
+				$image_list[] = $template;
+			}
+		}
+		$data['image_list'] = $image_list;
+		$this->load->view('include/header');
+		$this->load->view('templates/menu',$data);
+		$this->load->view('resource/imagelist',$data);
+		$this->load->view('include/footer');
+	}
+	
+	public function imageaction($action,$template_id){
+		$data["menu"] = "resource";
+		$data['sidebar'] = "imagelist";
+		$username = $this->session->userdata('username');
+		$data['username'] = $username ? $username : '无法获得';
+		
+		if( in_array($action, array('public','unpublic','enable','unable','remove'))){
+		    $para_data = array(
+		    		'method' => 'template_action',
+		    		'site' => 'hust',
+		    		'user_name' => 'lycc316',
+		    		'action' => $action,
+		    		'template_id' => $template_id
+	 
+		    );
+			$responce = $this->crane_openapi->request_iaas($para_data);
+			if( array_key_exists('error', $responce))
+			{
+				$data['error'] = '操作实验环境失败:'.$responce['error'];
+				$this->imagelist($data);
+				return;
+			}
+			redirect("resource/imagelist");
+		}
+		else{
+			$data['error'] = '无效的实验环境操作！';
+			$this->imagelist($data);
+		}
+	}
+	
 	public function test_model(){
 	    $user_name = 'lycc316';
 	    
@@ -786,11 +907,26 @@ class Resource extends Main_Controller {
 // 				);
 // 		$data = $this->cluster_info_model->delete_cluster(110);//add_cluster_info($para);
 		$para_data = array(
-				'method' => 'get_iaas_total_info',
+				'method' => 'query_template',
 				'site' => 'hust',
 				'user_name' => 'lycc316'
 		);
-	    $responce = $this->crane_openapi->request_report($para_data);
+// 		$para_data = array(
+// 				'method' => 'get_template_detail',
+// 				'site' => 'hust',
+// 				'user_name' => 'lycc316',
+// 				'template_id' => '83'
+				
+// 		);
+// 	    $para_data = array(
+// 	    		'method' => 'template_action',
+// 	    		'site' => 'hust',
+// 	    		'user_name' => 'lycc316',
+// 	    		'action' => 'unable',
+// 	    		'template_id' => '83'
+	    
+// 	    );
+	    $responce = $this->crane_openapi->request_iaas($para_data);
 		var_dump($responce);
 		//$data = $this->iaas_util_model->get_key_list($user_name);
 /*		$para = array(

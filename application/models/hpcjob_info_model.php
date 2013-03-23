@@ -26,6 +26,8 @@ class Hpcjob_info_model extends CI_Model
 		$this->db->from('hpcjob_info');
 		$this->db->join('experiment as exp','hpcjob_info.exp_id = exp.id');
 		$this->db->where('hpcjob_info.user_id',$user_id);
+		$this->db->order_by('job_id','desc');
+		
 		$query = $this->db->get();
 		
 		if($query->num_rows() > 0)
@@ -51,6 +53,8 @@ class Hpcjob_info_model extends CI_Model
 		$this->db->from('hpcjob_info');
 		$this->db->join('experiment as exp','hpcjob_info.exp_id = exp.id');
 		$this->db->where(array('hpcjob_info.exp_id'=>$exp_id, 'hpcjob_info.user_id'=>$user_id));
+		$this->db->order_by('job_id','desc');
+		
 		$query = $this->db->get();
 		
 		if($query->num_rows() > 0)

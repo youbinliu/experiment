@@ -26,6 +26,8 @@ class Cluster_info_model extends CI_Model
 		$cluster_list = array();
 		$this->db->where('user_id',$user_id);
 		$this->db->select('exp_id,cluster_id,master_vcpu,master_mem,slave_vcpu,slave_mem,slave_count');
+		$this->db->order_by('cluster_id','desc');
+		
 		$query = $this->db->get('cluster_info');
 		if($query->num_rows() > 0)
 		{
@@ -49,6 +51,8 @@ class Cluster_info_model extends CI_Model
 		$this->db->where('user_id',$user_id);
 		$this->db->select('cluster_id');
 		$query = $this->db->get('cluster_info');
+		$this->db->order_by('cluster_id','desc');
+		
 		if($query->num_rows() > 0)
 		{
 			foreach ($query->result() as $row){

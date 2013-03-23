@@ -13,6 +13,7 @@
 		<li <?php if($sidebar == "keylist")echo 'class="active"'; ?>><a href="<?php echo base_url("resource/keylist") ;?>"><i class="icon-chevron-right"></i>查看密钥</a></li> 
 	  	
 		<li <?php if($sidebar == "createkey")echo 'class="active"'; ?>><a href="<?php echo base_url("resource/createkey"); ?>"><i class="icon-chevron-right"></i>创建密钥</a></li> 
-	   
+
+		<li <?php if($sidebar == "imagelist")echo 'class="active"'; ?>><a href="<?php echo base_url("resource/imagelist"); ?>"><i class="icon-chevron-right"></i>实验环境</a></li> 
 	</ul> 
 </div> 

@@ -52,6 +52,7 @@
 						echo '<i class="icon-play"></i><a href="'?><?php echo base_url("/resource/vmaction/resume").'/'.$id ;?><?php echo '" data-confirm="确定执行操作resume？"> resume </a>';
 						echo '<i class="icon-pause"></i><a href="'?><?php echo base_url("/resource/vmaction/stop").'/'.$id ;?><?php echo '" data-confirm="确定执行操作stop？"> stop </a>';
 						echo '<i class=" icon-stop"></i><a href="'?><?php echo base_url("/resource/vmaction/shutdown").'/'.$id ;?><?php echo '" data-confirm="此操作会删除该虚拟机！<br>确定执行？"> shutdown </a>';
+						echo '<i class="icon-circle-arrow-down"></i><a href="'?><?php echo base_url("/resource/saveimage/".$id);?><?php echo '" data-confirm="此操作会将该虚拟机作为实验环境保存，<br>稍后可以使用该镜像创建虚拟机！<br>确定执行？"> 保存实验环境 </a>';
 				        //echo '<i class=" icon-ok-sign"></i><a href=""> save image </a>';
 						echo '</div>';
 					}

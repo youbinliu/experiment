@@ -125,7 +125,7 @@ class Experiment_model extends CI_Model
 	    $this->db->select('exp.*,type.type');
 	    $this->db->from('experiment as exp');
 	    $this->db->join('experiment_type as type','exp.type_id = type.id');
-	    
+	    $this->db->order_by('exp.id','desc');
 	    
 	    if($type == 'all')
 	    {
@@ -166,6 +166,8 @@ class Experiment_model extends CI_Model
 		$this->db->from('experiment as exp');
 		$this->db->join('experiment_type as type','exp.type_id = type.id');
 		$this->db->join('user','exp.user_id = user.id');
+		$this->db->order_by('exp.id','desc');
+		
 		$query = $this->db->get();
 		if($query->num_rows() > 0)
 		{

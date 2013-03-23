@@ -169,5 +169,18 @@ $config = array(
 				'label' => '运行命令',
 				'rules' => 'trim|required'
 				)
-	)
+	),
+	
+	'save_image' => array(
+		array(
+				'field' => 'image_name',
+				'label' => '实验环境名称',
+				'rules' => 'trim|required|alpha_dash'
+				),
+		array(
+				'field' => 'image_describe',
+				'label' => '环境描述',
+				'rules' => 'trim|required'
+		)
+			)
 );

@@ -45,6 +45,8 @@ class Vm_info_model extends CI_Model
 	    $vm_list = array();
 	    $this->db->where('user_id',$user_id);
 	    $this->db->select('exp_id,vm_id,key,vcpu,memory,image');
+	    $this->db->order_by('vm_id','desc');
+	    
 	    $query = $this->db->get('vm_info');
 	    if($query->num_rows() > 0)
 	    {
@@ -72,6 +74,8 @@ class Vm_info_model extends CI_Model
 	    $vm_list = array();
 	    $this->db->where(array('exp_id'=>$exp_id, 'user_id'=>$user_id));
 	    $this->db->select('vm_id,key,vcpu,memory,image');
+	    $this->db->order_by('vm_id','desc');
+	    
 	    $query = $this->db->get('vm_info');
 	    if($query->num_rows() > 0)
 	    {

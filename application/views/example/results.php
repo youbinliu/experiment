@@ -32,7 +32,7 @@
 				</div>
 					<?php if(!empty($jobs_list)):
 					    foreach ($jobs_list as $id=>$job){
-					        echo '<div class="contaniner page-header">';
+					        echo '<div class="contaniner page-header" style="background-color: #dceaf4;padding: 10px;">';
 					        echo '<h4>'.$job['exptitle'].' </h4>';
 					        echo '<i class="icon-filter"></i><b> 输入文件：</b>'.$job['input'].'<br>';
 					        echo '<i class="icon-tag"></i>执行命令：'.$job['command'].'<br>';

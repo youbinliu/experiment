@@ -25,8 +25,13 @@
 
 	<label>日记内容</label>
 	<?php echo form_error('diary_content'); ?>
-	<textarea <?php if(!empty($disabled) && in_array('content',$disabled)) echo "disabled"; ?> name="diary_content" rows="5"  style="width: 40%"><?php if(!empty($default['content'])) echo $default['content']; ?></textarea>
-
+	<textarea <?php if(!empty($disabled) && in_array('content',$disabled)) echo "disabled"; ?> name="diary_content" id="diary_content"><?php if(!empty($default['content'])) echo $default['content']; ?></textarea>
+	<script type="text/javascript">
+	      UE.getEditor('diary_content', {
+	          wordCount:false, //关闭字数统计
+	          elementPathEnabled:false//关闭elementPath
+	      });
+  	  </script>
       
 	<label></label>
 	<input type="hidden" <?php if(!empty($default['id'])) echo 'value='.$default['id']; ?> name="experiment_id" style="width: 40%;">

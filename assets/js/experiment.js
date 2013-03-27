@@ -70,40 +70,6 @@ $(document).ready(function(){
 		window.open("/experiment/resource/downloadkey/"+username+'/'+keyname);
 	});
 	
-	//For VM Key Delete
-	$("button.span2.btn-warning").click(function(){
-		var id = $(this).attr('id');
-		var method = id.split('&')[0];
-		var username = id.split('&')[1];
-		var keyname = id.split('&')[2];
-		
-		$.ajax({
-			url:"/experiment/"+"resource/"+method,
-			type:"POST",
-        	data:{
-        		'key_name':keyname,
-        		'user_name':username
-        	},
-			dataType:"json",
-			timeout:8000,
-			success:function(data){
-				data = eval(data);
-				if( data['status'] == 'error'){
-					alert(data['message']);
-					return;
-				}
-				else{
-					alert(data['message']);
-					location.href = "/experiment/resource/keylist";
-				}
-			},
-        	error: function(XMLHttpRequest, textStatus, errorThrown) {
-	             alert(XMLHttpRequest.status);
-	             alert(XMLHttpRequest.readyState);
-	             alert(XMLHttpRequest.responseText);
-	        }
-		});	
-	});
 	
 	//For all Delete link to show dialog modal
     $('a[data-confirm]').click(function(ev) {

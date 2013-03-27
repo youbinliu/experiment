@@ -22,7 +22,7 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'get_iaas_total_info',
 				'site' => 'hust',
-				'user_name' => 'lycc316'
+				'user_name' => $username
 		);
 		$responce = $this->crane_openapi->request_report($para_data);		
 		if( array_key_exists('error', $responce))
@@ -568,8 +568,8 @@ class Resource extends Main_Controller {
 		$this->load->helper(array('download'));
 		$para_data = array(
 				'method'=>'get_cluster_key',
-				'user_name' => 'test',//$username,
-				'cluster_id' => '20',//$cluster_id,
+				'user_name' => $username,
+				'cluster_id' => $cluster_id,
 				'site'=>'hust'
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
@@ -610,13 +610,10 @@ class Resource extends Main_Controller {
 		}
 	}
 	
-	/**
-	 * Delete the vm key
-	 */
-	public function deletekey()
+	public function deleteuserkey($key_name)
 	{
-		$key_name = $this->input->post('key_name');
-	    $username = $this->input->post('user_name');
+		$username = $this->session->userdata('username');
+		$data['username'] = $username ? $username : '无法获得';
 	    $para_data = array(
             'method'=>'delete_key',
 		    'user_name' => $username,
@@ -626,18 +623,12 @@ class Resource extends Main_Controller {
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce))
      	{
-     	    echo json_encode(array(
-     	        'status'=>'no',
-     	        'message'=> $responce['error']
-     	    ));
-     	}
-     	else
-     	{
-     	    echo json_encode(array(
-     	        'status'=>'ok',
-     	        'message'=>'Delete key ok!'
-     	    ));
-     	}
+     		$data['error'] = "删除密钥失败！";
+			$this->keylist($data);
+		}
+		else{	
+			$this->keylist($data);
+		}
 	}
 	
 	/**
@@ -682,10 +673,28 @@ class Resource extends Main_Controller {
 		$this->form_validation->set_error_delimiters('<div class="text-error">', '</div>');
 		if($this->form_validation->run('create_key') == FALSE)
 		{
-		    $this->load->view('include/header');
-		    $this->load->view('templates/menu',$data);
-		    $this->load->view('resource/createkey',$data);
-		    $this->load->view('include/footer');
+			$para_data = array(
+	            'method'=>'query_key',
+			    'user_name' => $username,
+	            'site'=>'hust',
+	     	);
+	     	$responce = $this->crane_openapi->request_iaas($para_data);
+	     	if( array_key_exists('error', $responce))
+	     	{
+			    $data['error'] = $responce['error'];
+	            $this->load->view('include/header');
+			    $this->load->view('templates/menu',$data);
+			    $this->load->view('resource/keylist',$data);
+			    $this->load->view('include/footer');
+	    		return;         	    
+	     	}
+	     	$data['key_list'] = $responce['key_list'];
+	     	//var_dump($responce);
+	     	$this->load->view('include/header');
+			$this->load->view('templates/menu',$data);
+			$this->load->view('resource/keylist',$data);
+			$this->load->view('include/footer');
+
 		}
 		else{
 		    $para_data = array(
@@ -724,13 +733,13 @@ class Resource extends Main_Controller {
 	    $this->load->view('include/header');
 	    $this->load->view('templates/menu',$data);
 	    $this->load->view('resource/createkey',$data);
-	    $this->load->view('include/footer');	    
+	    $this->load->view('include/footer');
 	}
 	
 	/**
 	 * Show the keys owned by the user
 	 */
-	public function keylist(){
+	public function keylist($data = array()){
 		$data["menu"] = "resource";
 		$data['sidebar'] = "keylist";
 		$username = $this->session->userdata('username');
@@ -861,7 +870,7 @@ class Resource extends Main_Controller {
 		    $para_data = array(
 		    		'method' => 'template_action',
 		    		'site' => 'hust',
-		    		'user_name' => 'lycc316',
+		    		'user_name' => $username,
 		    		'action' => $action,
 		    		'template_id' => $template_id
 	 

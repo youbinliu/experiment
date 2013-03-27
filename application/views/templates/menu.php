@@ -16,6 +16,7 @@
 					<li <?php if(!empty($menu) && $menu == "exp") echo "class='active'"; ?> ><a href="<?php echo base_url("exp/showlist/all") ?>">实验管理</a></li>
 					<li <?php if(!empty($menu) &&$menu == "example") echo "class='active'"; ?> ><a href="<?php echo base_url("example/template") ?>">典型实验</a></li>
 					<li <?php if(!empty($menu) &&$menu == "resource") echo "class='active'"; ?> ><a href="<?php echo base_url("resource/info") ?>">资源管理</a></li>
+					<li <?php if(!empty($menu) &&$menu == "ssh") echo "class='active'"; ?> ><a href="<?php echo base_url("ssh/index") ?>">远程终端</a></li>
 					<li <?php if(!empty($menu) &&$menu == "diary") echo "class='active'"; ?> ><a href="<?php echo base_url("diary/showlist") ?>">实验日志</a></li>
 				</ul>
 			</div>

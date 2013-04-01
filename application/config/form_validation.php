@@ -24,6 +24,11 @@ $config = array(
 			'field' => 'email',
 			'label' => '邮箱',
 			'rules' => 'trim|valid_email|required|callback_email_exists'
+		),
+		array(
+			'field' => 'invitecode',
+			'label' => '邀请码',
+			'rules' => 'trim|required'
 		)
 	),
 	

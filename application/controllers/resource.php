@@ -17,14 +17,17 @@ class Resource extends Main_Controller {
 		$data["menu"] = "resource";
 		$data['sidebar'] = "info";
 		$username = $this->session->userdata('username');
+		$client_id = $this->session->userdata('client_id');
+		$access_token = $this->session->userdata('access_token');
 		$data['username'] = $username ? $username : '无法获得';
 		$vm_total = array();
 		$para_data = array(
 				'method' => 'get_iaas_total_info',
 				'site' => 'hust',
-				'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
-		$responce = $this->crane_openapi->request_report($para_data);		
+		$responce = $this->crane_openapi->request_report($para_data);
 		if( array_key_exists('error', $responce))
 		{
 			$data['error'] = '获得资源统计信息失败！';
@@ -105,23 +108,17 @@ class Resource extends Main_Controller {
 		    //create vm by openapi
 		    $para_data = array(
             	'method'=>'vm_create',
-		    	'user_name' => $username,
             	'site'=>'hust',
 		        'vcpu' => $vcpu,
 		        'count' => $count,
 		        'image' => $image,
 		        'memory' => $memory,
-		        'key' => $key
+		        'key' => $key,
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	    );
      	    $responce = $this->crane_openapi->request_iaas($para_data);
-     	    //For test data
-// 			$responce = array(
-// 					'id_list' => array(
-// 							13413,
-// 							12334,
-// 							10114
-// 							)
-// 					);
+
      	    if( array_key_exists('error', $responce))
      	    {
      	        var_dump($responce);
@@ -195,7 +192,8 @@ class Resource extends Main_Controller {
      	$para_data = array(
      			'method' => 'get_all_vm_info',
      			'site' => 'hust',
-     			'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce)){
@@ -247,7 +245,8 @@ class Resource extends Main_Controller {
      	$para_data = array(
      			'method' => 'get_all_vm_info',
      			'site' => 'hust',
-     			'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce)){
@@ -295,8 +294,9 @@ class Resource extends Main_Controller {
             	'method'=>'vm_action',
             	'site'=>'hust',
 		        'vm_id' => $vm_id,
-		    	'user_name' => $username,
-     	        'action' => $action
+     	        'action' => $action,
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	    );
      	    $responce = $this->crane_openapi->request_iaas($para_data);
      	    if($action == 'shutdown' && !array_key_exists('error', $responce))
@@ -323,8 +323,9 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'get_vm_info',
 				'site' => 'hust',
-				'user_name' => $username,
-				'vm_id' => $vm_id
+				'vm_id' => $vm_id,
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_iaas($para_data);
 		if( array_key_exists('error', $responce)){
@@ -347,7 +348,8 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'get_vm_info',
 				'site' => 'hust',
-				'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_report($para_data);
 		if( array_key_exists('error', $responce)){
@@ -426,14 +428,15 @@ class Resource extends Main_Controller {
 			//create cluster by openapi
 		    $para_data = array(
             	'method'=>'create_cluster',
-		    	'user_name' => $username,
             	'site'=>'hust',
 		    	'template_id' => $template_id,
 		    	'master_vcpu' => $master_vcpu,
 		    	'master_mem' => $master_mem,
 		    	'slave_vcpu' => $slave_vcpu,
 		    	'slave_mem' => $slave_mem,
-		    	'slave_count' => $slave_count
+		    	'slave_count' => $slave_count,
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	    );
      	    $responce = $this->crane_openapi->request_hpcpaas($para_data);
      	    //For test data
@@ -496,18 +499,11 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'query_cluster',
 				'site' => 'hust',
-				'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
-// 		$responce = array(
-// 				'info_list' => array(
-// 						'cluster_id' => '111',
-// 						'start-time' => 'test',
-// 						'end_tie' => 'tes',
-// 						'status' => 'test',
-// 						'master_ipv6' => 'tst'
-// 						)
-// 				);
+
 		if( array_key_exists('error', $responce)){
 			$data['error'] = '获得集群资源池信息失败';
 			$cluster_list = array();
@@ -568,9 +564,10 @@ class Resource extends Main_Controller {
 		$this->load->helper(array('download'));
 		$para_data = array(
 				'method'=>'get_cluster_key',
-				'user_name' => $username,
 				'cluster_id' => $cluster_id,
-				'site'=>'hust'
+				'site'=>'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( !array_key_exists('error', $responce)){
@@ -590,12 +587,12 @@ class Resource extends Main_Controller {
 			var_dump(array('error' => "You can't delete other's cluster!"));
 		}
 		
-		//@todo delete use openapi
 		$para_data = array(
 				'method'=>'delete_cluster',
-				'user_name' => $username,
 				'cluster_id' => $cluster_id,
-				'site'=>'hust'
+				'site'=>'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce)){
@@ -616,9 +613,10 @@ class Resource extends Main_Controller {
 		$data['username'] = $username ? $username : '无法获得';
 	    $para_data = array(
             'method'=>'delete_key',
-		    'user_name' => $username,
 	        'key_name' => $key_name,
-            'site'=>'hust'
+            'site'=>'hust',
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce))
@@ -641,9 +639,10 @@ class Resource extends Main_Controller {
 	    $this->load->helper(array('download'));
 	    $para_data = array(
             'method'=>'get_key',
-		    'user_name' => $username,
 	        'key_name' => $key_name,
-            'site'=>'hust'
+            'site'=>'hust',
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce))
@@ -655,7 +654,7 @@ class Resource extends Main_Controller {
      	}
      	else
      	{
-     	    $file_name = $key_name.'.pub';
+     	    $file_name = $key_name.'.prv';
      	    $message = $responce['key_content'];
      	    force_download($file_name, $message);
      	}
@@ -675,8 +674,9 @@ class Resource extends Main_Controller {
 		{
 			$para_data = array(
 	            'method'=>'query_key',
-			    'user_name' => $username,
 	            'site'=>'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 	     	);
 	     	$responce = $this->crane_openapi->request_iaas($para_data);
 	     	if( array_key_exists('error', $responce))
@@ -699,9 +699,10 @@ class Resource extends Main_Controller {
 		else{
 		    $para_data = array(
             	'method'=>'create_key',
-		    	'user_name' => $username,
             	'site'=>'hust',
-		        'key_name' => $this->input->post('key_name')
+		        'key_name' => $this->input->post('key_name'),
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
      	    );
      	    //var_dump($para_data);
      	    //return;
@@ -747,8 +748,9 @@ class Resource extends Main_Controller {
 		
 		$para_data = array(
             'method'=>'query_key',
-		    'user_name' => $username,
             'site'=>'hust',
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce))
@@ -788,7 +790,9 @@ class Resource extends Main_Controller {
 		
 		$data["menu"] = "resource";
 		$data['sidebar'] = "imagelist";
-
+		$vm_id = $this->input->post('vm_id');
+		$data['vm_id'] = $vm_id;
+				
 		$this->form_validation->set_error_delimiters('<div class="text-error">', '</div>');
 		if($this->form_validation->run('save_image') == FALSE)
 		{
@@ -798,7 +802,6 @@ class Resource extends Main_Controller {
 			$this->load->view('include/footer');
 			return;
 		}
-		$vm_id = $this->input->post('vm_id');
 		$image_name = $this->input->post('image_name');
 		$image_describe = $this->input->post('image_describe');
 		
@@ -806,12 +809,13 @@ class Resource extends Main_Controller {
 				'method'=>'create_vm_template',
 				'template_name' => $image_name,
 				'description' => $image_describe,
-				'user_name' => $username,
 				'site'=>'hust',
-				'vm_id' => $vm_id
+				'vm_id' => $vm_id,
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
-// 		var_dump($para_data);
-// 		return;
+		var_dump($para_data);
+		return;
 		
 		$responce = $this->crane_openapi->request_iaas($para_data);
 		if( array_key_exists('error', $responce))
@@ -823,6 +827,7 @@ class Resource extends Main_Controller {
 			$this->load->view('include/footer');
 			return;
 		}
+		$this->vm_info_model->delete_vm($vm_id);
 		redirect("resource/imagelist");
 	}
 	
@@ -836,7 +841,8 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'query_template',
 				'site' => 'hust',
-				'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_iaas($para_data);
 		if( array_key_exists('error', $responce))
@@ -870,9 +876,10 @@ class Resource extends Main_Controller {
 		    $para_data = array(
 		    		'method' => 'template_action',
 		    		'site' => 'hust',
-		    		'user_name' => $username,
 		    		'action' => $action,
-		    		'template_id' => $template_id
+		    		'template_id' => $template_id,
+					'client_id' => $this->session->userdata('client_id'),
+					'access_token' => $this->session->userdata('access_token')
 	 
 		    );
 			$responce = $this->crane_openapi->request_iaas($para_data);
@@ -918,7 +925,8 @@ class Resource extends Main_Controller {
 		$para_data = array(
 				'method' => 'query_template',
 				'site' => 'hust',
-				'user_name' => 'lycc316'
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 // 		$para_data = array(
 // 				'method' => 'get_template_detail',
@@ -962,82 +970,6 @@ class Resource extends Main_Controller {
 				);
 		$responce = $this->crane_openapi->request_iaas($para_data); */
 //		var_dump($responce);
-	}
-	
-	public function showlisttest(){
-		$data["menu"] = "resource";
-		$data['sidebar'] = "showlist";
-		$username = $this->session->userdata('username');
-		$data['username'] = $username ? $username : '无法获得';
-		$user_id = $this->session->userdata('userid');
-	
-		/* 		$para_data = array(
-		 'method'=>'get_vm_info',
-				'site'=>'hust',
-				'vm_id' => $vm_id,
-				'user_name' => $username
-		);
-		$vmpool_list = $this->crane_openapi->request_iaas($para_data); */
-		$vms_list = $this->vm_info_model->get_user_vms_data();;
-		$vmpool_list = array(
-				array(
-						'stat' =>'test',
-						'vcpu' => '1',
-						'image' => 'testCentOS',
-						'stime' => 'testTime',
-						'memory' => '246',
-						'guid' => '12016'
-				),
-				array(
-						'stat' =>'test',
-						'vcpu' => '1',
-						'image' => 'testCentOS',
-						'stime' => 'testTime',
-						'memory' => '246',
-						'guid' => '12017'
-				)
-		);
-		foreach ($vmpool_list as $vm_detail){
-			$vm_id = $vm_detail['guid'];
-			$vms_list[$vm_id]['status'] = $vm_detail['stat'];
-			$vms_list[$vm_id]['start_time'] = $vm_detail['stime'];
-		}
-		var_dump($vms_list);
-		/* 		foreach ($vms_list as $vm_id=>$vm_detail) {
-		 $para_data = array(
-		 		'method'=>'get_vm_status',
-		 		'user_name' => $username,
-		 		'site'=>'hust',
-		 		'vm_id' => $vm_id
-		 );
-		$responce = $this->crane_openapi->request_iaas($para_data);
-		if( ! array_key_exists('error', $responce)){
-		$vms_list[$vm_id]['status']= $responce['status'];
-		}
-	
-		$para_data = array(
-				'method'=>'get_vm_info',
-				'site'=>'hust',
-				'vm_id' => $vm_id,
-				'user_name' => $username
-		);
-		$responce = $this->crane_openapi->request_iaas($para_data);
-		if( ! array_key_exists('error', $responce)){
-		$vms_list[$vm_id]['dns']= $responce['dns'];
-		$vms_list[$vm_id]['ipv6']= $responce['ipv6'];
-		$vms_list[$vm_id]['port']= $responce['sshport'];
-		}
-		else{
-		var_dump($responce);
-		}
-	
-		} */
-		$data['vms_list'] = $vms_list;
-		$data['experiment_list'] = $this->experiment_model->get_experiments_id_title($user_id);
-		$this->load->view('include/header');
-		$this->load->view('templates/menu',$data);
-		$this->load->view('resource/showlist',$data);
-		$this->load->view('include/footer');
 	}
 	
 }

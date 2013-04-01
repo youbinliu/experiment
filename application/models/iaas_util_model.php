@@ -24,8 +24,9 @@ class Iaas_util_model extends CI_Model
 	    $key_list = array();
 	    $para_data = array(
             'method'=>'query_key',
-		    'user_name' => $user_name,
             'site'=>'hust',
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
      	if( array_key_exists('error', $responce))
@@ -51,8 +52,9 @@ class Iaas_util_model extends CI_Model
 	    $image_list = array();
 	    $para_data = array(
             'method'=>'get_image_list',
-		    'user_name' => $user_name,
             'site'=>'hust',
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
      	);
      	$responce = $this->crane_openapi->request_iaas($para_data);
 	    if( array_key_exists('error', $responce))
@@ -73,8 +75,9 @@ class Iaas_util_model extends CI_Model
 		$cluster_template_list = array();
 		$para_data = array(
 				'method' => 'query_cluster_template',
-				'user_name' => $user_name,
-				'site' => 'hust'
+				'site' => 'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 				);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce))
@@ -94,8 +97,9 @@ class Iaas_util_model extends CI_Model
 		$hpc_job_template = array();
 		$para_data = array(
 				'method' => 'get_mpi_image_list',
-				'user_name' => $user_name,
-				'site' => 'hust'
+				'site' => 'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 				);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce)){

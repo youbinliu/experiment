@@ -22,9 +22,13 @@ class Crane_openapi
 {
     private $_ci;                                                 // CodeIgniter instance
     private $baseurl = 'https://cranebeta.hustcloud.com/';        // Base url for crane openapi
-    private $client_id = '45715739559e2f6194b4c2959657910a';      // Needed by openapi authentication
-    private $refresh_key = '6c7d0e2d9adb539f84727bd97dd637d3';    // Needed by openapi authentication
-    private $token_key = '';                                      // Get after openapi authentication
+    private $public_client_id = '92000ab0a3e82738629874287346fbd2';      // Needed by openapi authentication
+    private $public_refresh_key = '0e7e5jur8473ht911f9f8a9bad29072a';    // Needed by openapi authentication
+    private $public_token_key = '';
+    
+    // private $public_client_id = '45715739559e2f6194b4c2959657910a';      // Needed by openapi authentication
+    // private $public_refresh_key = '6c7d0e2d9adb539f84727bd97dd637d3';    // Needed by openapi authentication
+    // private $public_token_key = '';                                      // Get after openapi authentication
     private $response = '';                                       // Assumed to be the post responces info
     
 
@@ -38,8 +42,8 @@ class Crane_openapi
 	private function get_auth($method = 'auth')
 	{
 	    $auth = array(
-	        'refresh_key' => $this->refresh_key,
-	        'client_id'   => $this->client_id
+	        'refresh_key' => $this->public_refresh_key,
+	        'client_id'   => $this->public_client_id
 	    );
 	    $auth_data = http_build_query($auth, NULL, '&');
 	    $url = $this->baseurl.$method;
@@ -53,18 +57,127 @@ class Crane_openapi
 	    
 	    $response = curl_exec( $auth_curl);
 	    if( curl_errno($auth_curl)){
-	        $this->token_key = '';
+	        $this->public_token_key = '';
 	        return;
 	    }
 	    curl_close($auth_curl);
 	    $post_data = json_decode( $response, TRUE);
 	    $temp_tokey = array_key_exists('access_token', $post_data);
-	    $this->token_key = $temp_tokey? $post_data['access_token']: '';
+	    $this->public_token_key = $temp_tokey? $post_data['access_token']: '';
+	}
+	
+	private function get_access_token($client_id, $refresh_token)
+	{
+		$auth = array(
+			'refresh_key' => $refresh_token,
+			'client_id' => $client_id
+		);
+	    $auth_data = http_build_query($auth, NULL, '&');
+	    $url = $this->baseurl.'auth';
+	    $auth_curl = curl_init();
+	    curl_setopt( $auth_curl, CURLOPT_URL, $url);
+	    curl_setopt( $auth_curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	    curl_setopt( $auth_curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt( $auth_curl, CURLOPT_POST, 1);
+	    curl_setopt( $auth_curl, CURLOPT_POSTFIELDS, $auth_data);
+	    
+	    $response = curl_exec( $auth_curl);
+	    if( curl_errno($auth_curl)){
+	        return '';
+	    }
+	    curl_close($auth_curl);
+	    $post_data = json_decode( $response, TRUE);
+	    $temp_tokey = array_key_exists('access_token', $post_data);
+	    return $temp_tokey? $post_data['access_token']: '';		
+	}
+
+	public function user_get_register($param){
+		//If not take authentication,take it
+	    if( ! $this->is_auth())
+	    {
+	        $this->get_auth();
+	    }
+	    //If the authentication with wrong, return error
+	    if( ! $this->is_auth())
+	    {
+	        return '';
+	    }
+		$param['client_id'] = $this->public_client_id;
+		$param['access_token']= $this->public_token_key;
+		$register_data = http_build_query($param, NULL, '&');
+		$url = $this->baseurl.'crane/usermanage';
+		
+		$register_curl = curl_init();
+		curl_setopt( $register_curl, CURLOPT_URL, $url);
+	    curl_setopt( $register_curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	    curl_setopt( $register_curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt( $register_curl, CURLOPT_POST, 1);
+	    curl_setopt( $register_curl, CURLOPT_POSTFIELDS, $register_data);
+	    
+	    $response = curl_exec( $register_curl);
+		if( curl_errno( $register_curl)){
+			return array('error'=>'Curl Error When Register!');
+		}
+		curl_close($register_curl);
+		$post_data = json_decode( $response, TRUE);
+		if( array_key_exists('error', $post_data)){
+			return array('error'=>'Error Register!');
+		}
+	    return $post_data['register_status'];
+	}
+	
+	public function user_get_access_token($username,$password)
+	{
+		//If not take authentication,take it
+	    if( ! $this->is_auth())
+	    {
+	        $this->get_auth();
+	    }
+	    //If the authentication with wrong, return error
+	    if( ! $this->is_auth())
+	    {
+	        return '';
+	    }
+		$auth = array(
+			'client_id' => $this->public_client_id,
+			'access_token' => $this->public_token_key,
+			'method' =>  'check_user',
+			'site' => 'hust',
+			'user_name' => $username,
+			'pass_word' => $password
+		);
+		$auth_data = http_build_query($auth, NULL, '&');
+		$url = $this->baseurl.'crane/usermanage';
+		
+		$auth_curl = curl_init();
+		curl_setopt( $auth_curl, CURLOPT_URL, $url);
+	    curl_setopt( $auth_curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	    curl_setopt( $auth_curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt( $auth_curl, CURLOPT_POST, 1);
+	    curl_setopt( $auth_curl, CURLOPT_POSTFIELDS, $auth_data);
+	    
+	    $response = curl_exec( $auth_curl);
+		if( curl_errno( $auth_curl)){
+			return '';
+		}
+		curl_close($auth_curl);
+		$post_data = json_decode( $response, TRUE);
+		if( array_key_exists('error', $post_data)){
+			return 'error';
+		}
+		$client_id = $post_data['client_id'];
+		$refresh_token = $post_data['client_key'];
+		// return array($client_id,$refresh_token);
+		$auth_array = array(
+			'client_id' => $client_id,
+			'access_token' => $this->get_access_token($client_id, $refresh_token)
+		);
+	    return $auth_array;
 	}
 	
 	public function __call($method, $arguments)
 	{
-	    if (in_array($method, array('request_iaas','request_hpcpaas','request_usermanage','request_webpaas','request_report')))
+	    if (in_array($method, array('request_iaas','request_hpcpaas','request_webpaas','request_report')))
 	    {
 	        //Take off the 'request_' and past iaas/hpc/user/webpaas to _simple_call
 	        $verb = str_replace('request_', '', $method);
@@ -93,9 +206,7 @@ class Crane_openapi
 	    //Generate the post url
 	    $url = $this->baseurl.'crane/'.$method;
 	    
-	    //Add access_token and client_id to arguments
-	    $params['access_token'] = $this->token_key;
-	    $params['client_id'] = $this->client_id;	    
+	    //Add access_token and client_id to arguments    
 	    $method_data = http_build_query($params, NULL, '&');
 	    $method_curl = curl_init();
 	    curl_setopt( $method_curl, CURLOPT_URL, $url);
@@ -112,37 +223,10 @@ class Crane_openapi
 	    return json_decode( $response, TRUE);	    	    
 	}
 	
-	public function call_with_input_files($type,$params, $inputfiles)
-	{
-		//If not take authentication,take it
-		if( ! $this->is_auth())
-		{
-			$this->get_auth();
-		}
-		//If the authentication with wrong, return error
-		if( ! $this->is_auth())
-		{
-			return array('error' => 'Get openapi authentication error!');
-		}
-		//Generate the post url
-		$url = $this->baseurl.'crane/'.$type;
-		 
-		//Add access_token and client_id to arguments
-		$params['access_token'] = $this->token_key;
-		$params['client_id'] = $this->client_id;
-		$method_data = http_build_query($params, NULL, '&');
-		return $url.'?'.$method_data;
-	}
-	
 	private function is_auth()
 	{
-	    return $this->token_key ? TRUE : FALSE;
+	    return $this->public_token_key ? TRUE : FALSE;
 	}
 	
-	//Just for test, must delete after test OK!
-	public function get_token_key()
-	{
-	    return $this->token_key;
-	}
 	
 }

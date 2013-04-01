@@ -57,9 +57,10 @@ class Register extends CI_Controller
 			    'mailbox' => $this->input->post('email'),
 			    'service' => 'IaaS,Hpc',
 			    'tenement' => 'CommonUser',
-			    'is_global' => 'false'
+			    'is_global' => 'false',
+			    'invite_code' => $this->input->post('invitecode')
          	);
-         	$responce =$this->crane_openapi->request_usermanage($para_data);
+         	$responce =$this->crane_openapi->user_get_register($para_data);
          	if( array_key_exists('error', $responce))
          	{
          	    $data['error']= $responce['error'];
@@ -101,8 +102,7 @@ class Register extends CI_Controller
 	 */
 	public function username_exists($username)
 	{
-	    //
-	    return TRUE;
+
 		if( $this->user_model->username_exists($username))
 		{
 			$this->form_validation->set_message('username_exists','用户名已存在');
@@ -118,8 +118,7 @@ class Register extends CI_Controller
 	 */
 	public function email_exists($email)
 	{
-	    //
-	    return TRUE;
+
 		if($this->user_model->email_exists($email))
 		{
 			$this->form_validation->set_message('email_exists','邮箱已被注册');

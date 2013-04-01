@@ -64,11 +64,12 @@ class Example extends Main_Controller {
 		//create hpc template by openapi
 	    $params = array(
         	'method'=>'submit_app_job',
-	    	'user_name' => $username,
         	'site'=>'hust',
 	        'template_id'=>$template_id,
 	        'node_count'=>$node_count,
-	        'command'=>$command
+	        'command'=>$command,
+			'client_id' => $this->session->userdata('client_id'),
+			'access_token' => $this->session->userdata('access_token')
  	    );
 		
 		$path = array();
@@ -181,9 +182,10 @@ class Example extends Main_Controller {
 		//@todo delete use openapi
 		$para_data = array(
 				'method'=>'delete_job',
-				'user_name' => $username,
 				'job_id' => $job_id,
-				'site'=>'hust'
+				'site'=>'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce)){
@@ -206,9 +208,10 @@ class Example extends Main_Controller {
 		$this->load->helper(array('download'));
 		$para_data = array(
 				'method'=>'download_job_result',
-				'user_name' => $username, //'test'
-				'job_id' => $job_id, //83
-				'site'=>'hust'
+				'job_id' => $job_id,
+				'site'=>'hust',
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce))
@@ -245,7 +248,8 @@ class Example extends Main_Controller {
 		$para_data = array(
 				'method' => 'get_user_job',
 				'site' => 'hust',
-				'user_name' => $username
+				'client_id' => $this->session->userdata('client_id'),
+				'access_token' => $this->session->userdata('access_token')
 		);
 		$responce = $this->crane_openapi->request_hpcpaas($para_data);
 		if( array_key_exists('error', $responce)){

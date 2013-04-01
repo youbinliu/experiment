@@ -135,15 +135,7 @@ class Diary extends Main_Controller {
 			return;
 		}
 		$data['diary'] = $content;
-// 		$exp_id = $content['exp_id'];
-// 		$data['disabled'] = array('button','title','content','experiment_id');
-// 		$data['default'] = array(
-// 				'title' => $content['title'],
-// 				'content' => $content['content'],
-// 				'id' => $id
-// 		);
-		
-// 		$data['experiment_list'] = $this->experiment_model->get_experiments_id_title($user_id);
+
 		$this->load->view('include/header');
 		$this->load->view('templates/menu',$data);
 		$this->load->view('logs/showlog',$data);
@@ -182,19 +174,15 @@ class Diary extends Main_Controller {
 		$user_id = $this->session->userdata('userid');
 		
 		$cluster_list = $this->cluster_info_model->get_clusterid_by_userid($user_id);
-// 		$data['system_log'] = array(
-// 				'111'=> array(
-// 						'test',
-// 						'test2'
-// 						)
-// 				);
+
 		$system_log = array();
 		foreach ($cluster_list as $cluster_id){
 			$para_data = array(
 					'method' => 'get_cluster_log',
 					'site' => 'hust',
 					'cluster_id' => $cluster_id,
-					'user_name' => $username
+					'client_id' => $this->session->userdata('client_id'),
+					'access_token' => $this->session->userdata('access_token')
 			);
 			$responce = $this->crane_openapi->request_hpcpaas($para_data);
 			if( array_key_exists('error', $responce)){

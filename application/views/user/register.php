@@ -24,6 +24,9 @@
 		<label>邮箱</label>
 		<?php echo form_error('email');?>
 		<input type="text" name="email" value="<?php echo set_value('email'); ?>" style="width: 260px;">
+		<label>邀请码</label>
+		<?php echo form_error('invitecode');?>
+		<input type="text" name="invitecode" value="<?php echo set_value('invitecode'); ?>" style="width: 260px;">
 <!--       <button type="submit" class="btn btn-primary">注册</button> -->
       
 		<button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">确定</button>

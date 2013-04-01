@@ -77,79 +77,25 @@ class Home extends Main_Controller {
 		else
 		{
 		    $username = $this->input->post('login_username');
+			$password = md5($this->input->post('login_password'));
+			$access_array = $this->crane_openapi->user_get_access_token($username,$password);
+		    if( empty($access_array)){
+		    	$data['error'] = '远程认证错误！';
+				$this->load->view('include/header');
+				$this->load->view('user/login',$data);
+				$this->load->view('include/footer');
+				return;
+			}
 		    $data = array(
 		    	'userid' => $this->user_model->get_user_id($username),
 				'username' => $username,
-				'login_in' => TRUE				
+				'client_id' => $access_array['client_id'],
+				'access_token' => $access_array['access_token'],
+				'login_in' => TRUE
 			);
 			$this->session->set_userdata($data);
 			
 		    redirect("exp/showlist");
-
-/*			$para_data = array(
-                'method'=>'register',
-                'new_name'=>'lycc',
-                'site'=>'hust',
-			    'user_site' => 'hust',
-			    'password'=> '111',//$this->input->post('password')
-			    'mailbox' => $this->input->post('email'),
-			    'service' => 'IaaS,Hpc',
-			    'tenement' => 'CommonUser',
-			    'is_global' => 'false',
-         	);
-         	var_dump($this->crane_openapi->request_usermanage($para_data));*/
-		    //var_dump($this->crane_openapi->get_auth());
-		    //var_dump($this->crane_openapi->get_token_key());
-/*			$data = array(
-				'username' => $this->input->post('login_username'),
-				'login_in' => TRUE				
-			);
-			$this->session->set_userdata($data);
-			$auth = array(
-				'refresh_key'=>'6c7d0e2d9adb539f84727bd97dd637d3',
-				'client_id'=>urlencode('45715739559e2f6194b4c2959657910a')
-			);
-			$auth_data = http_build_query($auth, NULL, '&');
-			$url = 'https://cranebeta.hustcloud.com/auth';
-			$ch = curl_init();
-			
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $auth_data);
-			$response = curl_exec($ch);
-			if(curl_errno($ch)){
-				echo curl_error($ch);
-			}			
-			curl_close($ch);
-			//$responce = $this->curl->simple_post('',$auth);
-			$post_data = json_decode($response,TRUE);
-			$token = $post_data['access_token'];
-			echo $token;			
-			$ch = curl_init();
-			$action_url = 'https://cranebeta.hustcloud.com/crane/usermanage';
-         	curl_setopt($ch, CURLOPT_URL, $action_url);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $para_data);
-			$response = curl_exec($ch);
-			if(curl_errno($ch)){
-				echo curl_error($ch);
-			}			
-			curl_close($ch);
-			var_dump(array($para_data,$response));
-			print_r(json_decode($response));			
-			//$responce = $this->curl->simple_post('',$auth);
-			//print_r(json_decode($response,TRUE));
-			//var_dump($token['access_token']);
-			//$data['content'] = json_decode($responce);
-			//$data['content'] = 'test';
-			//$this->load->view('testview',$data);
-			//redirect("exp/showlist");
- 
-			 */
 		}
 	}
 	

@@ -19,14 +19,6 @@ class Vm_info_model extends CI_Model
 	 */
 	public function add_vm_info($data)
 	{
-/*	    $exp_id = $config['exp_id'];
-	    $vm_id = $config['vm_id'];
-	    $vcpu = $config['vcpu'];
-	    $memory = $config['memory'];
-	    $image = $config['image'];
-	    date_default_timezone_set('Asia/Shanghai');
-		date_default_timezone_set('Asia/Shanghai');
-		$data['start_time'] = date("Y-m-j H:i:s");*/
 		$this->db->insert('vm_info', $data);
 		if($this->db->affected_rows() > 0)
 		{

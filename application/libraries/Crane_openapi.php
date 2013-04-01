@@ -22,13 +22,11 @@ class Crane_openapi
 {
     private $_ci;                                                 // CodeIgniter instance
     private $baseurl = 'https://cranebeta.hustcloud.com/';        // Base url for crane openapi
+    //Note that the public_client_id and public_refresh_key are used when user register and auth,you can do nothing other than these
     private $public_client_id = '92000ab0a3e82738629874287346fbd2';      // Needed by openapi authentication
     private $public_refresh_key = '0e7e5jur8473ht911f9f8a9bad29072a';    // Needed by openapi authentication
     private $public_token_key = '';
     
-    // private $public_client_id = '45715739559e2f6194b4c2959657910a';      // Needed by openapi authentication
-    // private $public_refresh_key = '6c7d0e2d9adb539f84727bd97dd637d3';    // Needed by openapi authentication
-    // private $public_token_key = '';                                      // Get after openapi authentication
     private $response = '';                                       // Assumed to be the post responces info
     
 
@@ -100,7 +98,7 @@ class Crane_openapi
 	    //If the authentication with wrong, return error
 	    if( ! $this->is_auth())
 	    {
-	        return '';
+			return array('error'=>'Error When Get Public Auth!');
 	    }
 		$param['client_id'] = $this->public_client_id;
 		$param['access_token']= $this->public_token_key;
@@ -220,7 +218,8 @@ class Crane_openapi
 	        return array('error'=>'Get openapi data curl error!');
 	    }
 	    curl_close($method_curl);
-	    return json_decode( $response, TRUE);	    	    
+		$result = json_decode( $response, TRUE);
+	    return $result == null ? array('error' => 'Error decoding JSON') : $result;    
 	}
 	
 	private function is_auth()

@@ -24,7 +24,7 @@
 <body>
 	<div id="wrap">
 	<?php $this->load->view('templates/menu');?>
-	  	<div id="gateone_container" style="position: relative; width: 100%; height: 600px;">
+	  	<div id="gateone_container" style="position: relative; width: 100%; height: 450px;">
 	        <div id="gateone" ></div>
 	    </div>
 	

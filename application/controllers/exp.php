@@ -227,5 +227,10 @@ class Exp extends Main_Controller {
 		$this->load->view('include/footer');
 	}
 	
+	public function existresource($exp_id){
+		$result = $this->experiment_model->experiment_has_resources($exp_id);
+		echo $result? 'yes':'no';
+	}
+	
 	
 }

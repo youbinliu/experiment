@@ -106,6 +106,15 @@ class Cluster_info_model extends CI_Model
 			return -1;
 		}
 	}
+
+	public function experiment_has_resources($exp_id){
+		$this->db->where('exp_id',$exp_id);
+		$query = $this->db->get('cluster_info');
+		if($query->num_rows() > 0 ){
+			return TRUE;
+		}
+		return FALSE;
+	}
 	
 	
 }

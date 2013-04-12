@@ -254,9 +254,9 @@ class Experiment_model extends CI_Model
 		
 		$experiment_list = array();
 		if(!$keywords)return $experiment_list;
-		//str_replace("，", ",", $keywords);
+		str_replace("，", ",", $keywords);
 		//$keys=explode(",",trim($keywords));
-		$keys=explode(" ",trim($keywords));
+		$keys=explode(",",trim($keywords));
 		$sql="select id,title from experiment where ";
 		/*if ($keys) {
 			$this->db->like('keywords',$keys[0]);
@@ -291,7 +291,7 @@ class Experiment_model extends CI_Model
 	    	}
 		}
 		return $experiment_list;
-}
+	}
 
 	public function experiment_has_resources($exp_id){
 		$result = FALSE;
@@ -299,6 +299,6 @@ class Experiment_model extends CI_Model
 		$result = $result||$this->cluster_info_model->experiment_has_resources($exp_id);		
 		$result = $result||$this->hpcjob_info_model->experiment_has_resources($exp_id);
 		return $result;
-//>>>>>>> 6556bcc028f5c833521070c85e95fa84b02a43e0
+
 	}
 }

@@ -61,7 +61,8 @@ class Exp extends Main_Controller {
 		     $type_id = $this->input->post('experiment_type');
 		     $status = $this->input->post('experiment_status');
 		     $describe = $this->input->post('experiment_describe');
-		     if($this->experiment_model->add_experiment($title,$user_id,$type_id,$status,$describe))
+		     $keyword = $this->input->post('experiment_keyword');
+		     if($this->experiment_model->add_experiment($title,$user_id,$type_id,$status,$describe,$keyword))
 		     {
                 redirect("exp/showlist");
 		     }
@@ -111,6 +112,8 @@ class Exp extends Main_Controller {
 		$data['username'] = $username ? $username : '无法获得';
 		$user_id = $this->session->userdata('userid');
 		$content = $this->experiment_model->get_one_experiment_byid($id);
+		$relative = $this->experiment_model->get_experiments_relative_bystr($content->keywords,$id);
+		
 		if(key_exists('error', $content)){
 			$data['sidebar'] = 'all';
 			$data['all_experiments'] = $this->experiment_model->get_all_experiments_byuser($user_id,'all');
@@ -123,10 +126,13 @@ class Exp extends Main_Controller {
 			$this->load->view('include/footer');
 			return;
 		}
+
 		$data['experiment'] = $content;
+		$data['relativexp'] = $relative;
 		$this->load->view('include/header');
 		$this->load->view('templates/menu',$data);
 		$this->load->view('exp/showexp',$data);
+		//$this->load->view('testview',$data);
 		$this->load->view('include/footer');
 	}
 	
@@ -163,7 +169,8 @@ class Exp extends Main_Controller {
 			'tools' => $content->tools,
 			'result' => $content->result,
 			'papers' => $content->papers,
-		    'id' => $id
+		    'id' => $id,
+			'keywords' => $content->keywords
 		);
 		$data['experiment_type'] = $this->experiment_types;
 		

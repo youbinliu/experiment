@@ -34,7 +34,10 @@ class Home extends Main_Controller {
 		if( $this->session->userdata('login_in')){
 			$data['islogin'] = 1;
 		}	
-		$data['experiment'] = $this->experiment_model->get_one_experiment_byid($exp_id);
+		$content = $this->experiment_model->get_one_experiment_byid($exp_id);
+		$relative = $this->experiment_model->get_experiments_relative_bystr($content->keywords,$exp_id);
+		$data['experiment'] = $content;
+		$data['relativexp'] = $relative;
 		$this->load->view('homepage/homehead',$data);
 		$this->load->view('homepage/showexp',$data);
 		$this->load->view('include/footer');

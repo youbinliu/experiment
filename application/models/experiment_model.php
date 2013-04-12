@@ -37,8 +37,9 @@ class Experiment_model extends CI_Model
 	 * @param string/int $type_id
 	 * @param string $status
 	 * @param string $describe
+	 * @param string $keyword
 	 */
-	public function add_experiment($title,$user_id,$type_id,$status,$describe)
+	public function add_experiment($title,$user_id,$type_id,$status,$describe,$keyword="")
 	{
 	    date_default_timezone_set('Asia/Shanghai');
 		$data = array(
@@ -47,7 +48,8 @@ class Experiment_model extends CI_Model
 			'user_id' => $user_id,
 		    'start_time' => date("Y-m-j H:i:s"), 
 			'status'=>$status, 
-			'describe'=>$describe
+			'describe'=>$describe,
+		    'keywords'=>$keyword
 		);
 		$this->db->insert('experiment', $data);
 		//Let it returns TRUE,in case nothing changes!
@@ -240,5 +242,55 @@ class Experiment_model extends CI_Model
 	        }
 	    }
 	    return $experiment_list;
+	}
+	
+	/**
+	 * get the id and title list relative to current experiment by keywords
+	 * @param string keywords,int/string id
+	 * @return multitype:NULL
+	 */
+	public function get_experiments_relative_bystr($keywords,$id)
+	{
+		
+		$experiment_list = array();
+		if(!$keywords)return $experiment_list;
+		//str_replace("，", ",", $keywords);
+		//$keys=explode(",",trim($keywords));
+		$keys=explode(" ",trim($keywords));
+		$sql="select id,title from experiment where ";
+		/*if ($keys) {
+			$this->db->like('keywords',$keys[0]);
+			for($i=1;$i<count($keys);$i++){
+				$this->db->or_like('keywords',$keys[$i]);
+			}
+			$this->db->where('id<>',$id);
+			$this->db->select('id,title');
+			$query = $this->db->get('experiment');
+			
+			if($query->num_rows() > 0)
+	    	{
+	       		foreach ($query->result() as $row) {
+	            	$experiment_list[$row->id] = $row->title;
+	        	}
+	    	}
+		}*/
+		if($keys){
+			$sql.="keywords like '%".$keys[0]."%' ";
+			for($i=1;$i<count($keys);$i++){
+				$sql.="or keywords like '%".$this->db->escape_like_str($keys[$i])."%' ";
+			}
+			$sql.=";";
+			$query = $this->db->query($sql);
+			if($query->num_rows() > 0)
+	    	{
+	       		foreach ($query->result() as $row) {
+	       			if($row->id!=$id)
+	            		$experiment_list[$row->id] = array('title'=>$row->title);
+	            	
+	        	}
+	    	}
+		}
+		return $experiment_list;
+		
 	}
 }

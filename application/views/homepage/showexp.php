@@ -1,6 +1,18 @@
  <!-- Begin page content --> 
-<div class="row" style="text-align:left;padding-left:300px;padding-top:50px">
-
+<div class="row" style="text-align:left;padding-top:50px">
+	<div class="span3" style="text-align:center">
+ 		<?php if ( !empty($relativexp) ): ?>
+    			
+    				<h4>相关实验</h4>
+    				<p class="text-info">
+    				<?php foreach ($relativexp as $eid => $exp)
+    							
+    							echo '<a href="'.base_url("home/show/".$eid).'">'.$exp['title'].'</a><br>';	
+    							
+    				?>
+    				</p>
+    	<?php endif; ?>	
+    </div>
  	<?php if ( !empty($experiment) ): ?>
 		<div class="contaniner page-header span10" style="background-color: #dceaf4;padding: 10px;">
     		<h4>实验题目：<?php echo $experiment->title;?></h4>
@@ -18,6 +30,9 @@
 			<!-- JiaThis Button END -->
 			<br>
     		<i class="icon-tag"></i> 实验类型 ：<?php echo $experiment->type;?><br>
+    		<?php if ( !empty($experiment->keywords) ): ?>
+    		<i class="icon-book"></i> 关键字：<?php echo $experiment->keywords;?><br>
+    		<?php endif; ?>
     		<i class="icon-user"></i> 创建用户 ：<?php echo $experiment->username;?> 		
     		<i class="icon-time"></i> 开始时间： <?php echo $experiment->start_time;?><br>   
     		<i class="icon-wrench"></i> 使用工具：<?php if( !empty($experiment->tools) ) echo $experiment->tools;?><br>
@@ -31,9 +46,8 @@
     		
     		</div>
     	</div>
-    	<?php 
-    endif; ?>
-    
+    	<?php endif; ?>
+    	
 </div>
 	</div>
 </div>

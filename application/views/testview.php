@@ -1,2 +1,5 @@
 <?php
-echo $content;
+foreach ($relativexp as $id=>$exp){
+	echo $exp['title'];
+}
+?>

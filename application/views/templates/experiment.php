@@ -22,7 +22,7 @@
     	  		    }
             endif; ?>
       </select>
-      <label>关键词<label class="label label-info">（每个关键词用空格分开，小于40个字符）</label></label>
+      <label>关键词<label class="label label-info">（每个关键词用","分开，小于40个字符）</label></label>
       <input type="text" <?php if(!empty($default['keywords'])) echo 'value='.$default['keywords']; ?> name="experiment_keyword" style="width: 40%;" maxlength="40">
       
       <label>实验描述</label>

@@ -23,9 +23,9 @@ class Experiment_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_ci = & get_instance();    
+		$this->_ci = & get_instance();
 	    $this->load->database();
-	    $this->load->model('experiment_type_model');
+	    $this->load->model(array('experiment_type_model','vm_info_model','hpcjob_info_model','cluster_info_model'));
 	    $this->get_experiment_types();
 	}
 	
@@ -291,6 +291,14 @@ class Experiment_model extends CI_Model
 	    	}
 		}
 		return $experiment_list;
-		
+}
+
+	public function experiment_has_resources($exp_id){
+		$result = FALSE;
+		$result = $result||$this->vm_info_model->experiment_has_resources($exp_id);
+		$result = $result||$this->cluster_info_model->experiment_has_resources($exp_id);		
+		$result = $result||$this->hpcjob_info_model->experiment_has_resources($exp_id);
+		return $result;
+//>>>>>>> 6556bcc028f5c833521070c85e95fa84b02a43e0
 	}
 }

@@ -25,7 +25,7 @@
     	  		        echo '<i class="icon-edit"></i>';
     	  		        echo '<a href="'.base_url("exp/edit/".$id).'">完善信息</a>';
     	  		        echo '<i class=" icon-remove"></i>';
-    	  		        echo '<a href="'.base_url("exp/delete/".$id).'" data-confirm="确认删除该实验？ <br /> 注意，删除实验前请删除该实验所申请的所有资源，否则会导致删除错误！">删除</a>';
+    	  		        echo '<a href="'.base_url("exp/delete/".$id).'" expid="'.$id.'" data-confirm="该实验已释放完所有资源。 <br /> 确认删除该实验？">删除</a>';
     	  		        echo '<i class=" icon-wrench"></i>';
     	  		        echo '<a href="'.base_url("resource/filtershowlist/".$id).'">资源管理</a>';
     	  		        echo '<br>';

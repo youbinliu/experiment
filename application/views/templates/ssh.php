@@ -24,7 +24,18 @@
 <body>
 	<div id="wrap">
 	<?php $this->load->view('templates/menu');?>
-  	<iframe height="100%" width="100%" src="https://211.69.198.245"></iframe>
+	  	<div id="gateone_container" style="position: relative; width: 100%; height: 450px;">
+	        <div id="gateone" ></div>
+	    </div>
+	
+	    <!-- Call GateOne.init() at some point after the page is done loading -->
+	    <script>
+	    window.onload = function() {
+	        // Initialize Gate One:
+	        GateOne.init({
+			url: 'https://211.69.198.245'});
+	    }
+	    </script>
   	</div>
 </body>
 </html>

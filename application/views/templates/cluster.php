@@ -23,7 +23,7 @@
 	<select name='cluster_template' class="span5">
 	<?php if(!empty($cluster_template)):
 		foreach ($cluster_template as $id=>$template){
-			echo '<option '?><?php echo 'value="'.$id.'">'.$template['name'].'</option>';
+			echo '<option '?><?php echo 'value="'.$id.'">'?><?php if($template['name'] == 'mpi') echo '标准cluster';else echo $template['name'].'</option>';
 		}
 	endif;?>
 	</select>

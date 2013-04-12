@@ -814,8 +814,6 @@ class Resource extends Main_Controller {
 				'client_id' => $this->session->userdata('client_id'),
 				'access_token' => $this->session->userdata('access_token')
 		);
-		var_dump($para_data);
-		return;
 		
 		$responce = $this->crane_openapi->request_iaas($para_data);
 		if( array_key_exists('error', $responce))

@@ -20,7 +20,7 @@
 
 				<label>模板名称(请使用英文！)</label>
 				<?php echo form_error('image_name'); ?>
-				<input type="text" name="image_name" style="width: 40%;"> <label>模板描述</label>
+				<input type="text" name="image_name" style="width: 40%;"> <label>模板描述(请使用英文！)</label>
 
 				<?php echo form_error('image_describe'); ?>
 				<input type="text" name="image_describe" style="width: 40%;">

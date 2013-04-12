@@ -77,10 +77,25 @@ $(document).ready(function(){
 
         if (!$('#dataConfirmModal').length) {
             $('body').append('<div id="dataConfirmModal" class="modal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="dataConfirmLabel">请确认</h3></div><div class="modal-body"></div><div class="modal-footer"><a class="btn btn-primary" id="dataConfirmOK">确认</a><button class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">取消</button></div></div>');
-        } 
-        $('#dataConfirmModal').find('.modal-body').html($(this).attr('data-confirm'));
-        $('#dataConfirmOK').attr('href', href);
-        $('#dataConfirmModal').modal({show:true});
+        }
+        if( typeof($(this).attr("expid")) == 'undefined'){
+	        $('#dataConfirmModal').find('.modal-body').html($(this).attr('data-confirm'));
+	        $('#dataConfirmOK').attr('href', href);
+	        $('#dataConfirmModal').modal({show:true});    
+	        return false;    	
+        }
+    	$.get("/experiment/exp/existresource/"+$(this).attr("expid"),function(data){
+    		if(data == "no"){
+		        $('#dataConfirmModal').find('.modal-body').html("该实验已释放完所有资源。 <br /> 确认删除该实验？");
+		        $('#dataConfirmOK').attr('href', href);
+		        $('#dataConfirmModal').modal({show:true});
+    		} else if(data == 'yes'){
+    	        $('#dataConfirmModal').find('.modal-body').html('该实验还有资源未删除。<br /> <span style=color:red>不能删除该实验！</span>');
+		        $('#dataConfirmOK').attr('aria-hidden', 'true');
+		        $('#dataConfirmOK').attr('data-dismiss', 'modal');
+		        $('#dataConfirmModal').modal({show:true});
+    		}
+    	})
         return false;
     });
 	

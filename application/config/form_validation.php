@@ -185,7 +185,7 @@ $config = array(
 		array(
 				'field' => 'image_describe',
 				'label' => '环境描述',
-				'rules' => 'trim|required'
+				'rules' => 'trim|required|alpha_dash'
 		)
 			)
 );

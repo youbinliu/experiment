@@ -113,7 +113,11 @@ class Exp extends Main_Controller {
 		$user_id = $this->session->userdata('userid');
 		$content = $this->experiment_model->get_one_experiment_byid($id);
 		$relative = $this->experiment_model->get_experiments_relative_bystr($content->keywords,$id);
-		
+		if($rating=$this->experiment_model->get_user_rating($id,$user_id)){
+			$data['score']=$rating['score'];
+			if(!empty($rating['user_in']))
+				$data['user_in']=$rating['user_in'];
+		}
 		if(key_exists('error', $content)){
 			$data['sidebar'] = 'all';
 			$data['all_experiments'] = $this->experiment_model->get_all_experiments_byuser($user_id,'all');
@@ -232,6 +236,19 @@ class Exp extends Main_Controller {
 		$this->load->view('templates/menu',$data);
 		$this->load->view('exp/showlist',$data);
 		$this->load->view('include/footer');
+	}
+	
+	public function addrating(){
+		$exp_id=$this->input->post('exp');
+		$score=$this->input->post('score');
+		$user_id = $this->session->userdata('userid');
+		if($this->experiment_model->add_rating($user_id,$exp_id,$score))
+		     {
+                redirect("exp/show/".$exp_id);
+		     }
+		     else {
+		         $data['error']= '插入数据库错误';
+		     }
 	}
 	
 	public function existresource($exp_id){

@@ -21,6 +21,10 @@
    <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/highcharts.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/custom.js') ?>"></script>
+   
+   <script src="<?php echo base_url('assets/plugins/jquery-rater/jquery.rater.js') ?>"></script>
+   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/jquery-rater/rater.css') ?>" /> 
+   
 </head>
 <body style="padding-top:0px;">
  <div id="wrap">

@@ -1,18 +1,6 @@
  <!-- Begin page content --> 
 <div class="row" style="text-align:left;padding-top:50px">
-	<div class="span3" style="text-align:center">
- 		<?php if ( !empty($relativexp) ): ?>
-    			
-    				<h4>相关实验</h4>
-    				<p class="text-info">
-    				<?php foreach ($relativexp as $eid => $exp)
-    							
-    							echo '<a href="'.base_url("home/show/".$eid).'">'.$exp['title'].'</a><br>';	
-    							
-    				?>
-    				</p>
-    	<?php endif; ?>	
-    </div>
+	<?php $this->load->view('templates/relative_side');?>
  	<?php if ( !empty($experiment) ): ?>
 		<div class="contaniner page-header span10" style="background-color: #dceaf4;padding: 10px;">
     		<h4>实验题目：<?php echo $experiment->title;?></h4>
@@ -29,6 +17,19 @@
 			<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1358558647891616" charset="utf-8"></script>
 			<!-- JiaThis Button END -->
 			<br>
+			<i class="icon-star"></i> 实验评分 ：
+    			<?php if(!empty($score)):?>
+    				<div id="demo1" style="display:inline">
+    				</div><script type="text/javascript">
+    					$("#demo1").rater({active:false,maxvalue:10,curvalue:<?php echo $score;?>,style:'inline-normal'});
+    				</script>
+    			<?php else:?>
+    				<p style="display: inline">没有用户评分</p>	
+    			<?php endif;?>
+    			<?php if(empty($user_in)):?>
+    				<?php $this->load->view('templates/rater');?>
+    			<?php endif;?>
+    			<br>
     		<i class="icon-tag"></i> 实验类型 ：<?php echo $experiment->type;?><br>
     		<?php if ( !empty($experiment->keywords) ): ?>
     		<i class="icon-book"></i> 关键字：<?php echo $experiment->keywords;?><br>

@@ -22,6 +22,9 @@
    <script src="<?php echo base_url('assets/js/highcharts.js') ?>"></script>
    <script src="<?php echo base_url('assets/js/custom.js') ?>"></script>
    
+   <script src="<?php echo base_url('assets/plugins/jquery-rater/jquery.rater.js') ?>"></script>
+   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/jquery-rater/rater.css') ?>" /> 
+   
    <script type="text/javascript" charset="utf-8" src="<?=base_url('ueditor/editor_config.js')?>"></script>
    <script type="text/javascript" charset="utf-8" src="<?=base_url('ueditor/editor_all_min.js')?>"></script>
 </head>

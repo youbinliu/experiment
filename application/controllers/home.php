@@ -31,9 +31,19 @@ class Home extends Main_Controller {
 	
 	public function show($exp_id){
 		$data['islogin'] = 0;
+		$user_id="";
 		if( $this->session->userdata('login_in')){
 			$data['islogin'] = 1;
+			$user_id=$this->session->userdata('userid');
 		}	
+		if($rating=$this->experiment_model->get_user_rating($exp_id,$user_id)){
+			$data['score']=$rating['score'];
+			if(!empty($rating['user_in']))
+				$data['user_in']=$rating['user_in'];
+		}
+		if($data['islogin']==0){
+			$data['user_in']=true;
+		}
 		$content = $this->experiment_model->get_one_experiment_byid($exp_id);
 		$relative = $this->experiment_model->get_experiments_relative_bystr($content->keywords,$exp_id);
 		$data['experiment'] = $content;

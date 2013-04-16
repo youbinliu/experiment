@@ -284,9 +284,16 @@ class Experiment_model extends CI_Model
 			if($query->num_rows() > 0)
 	    	{
 	       		foreach ($query->result() as $row) {
-	       			if($row->id!=$id)
+	       			if($row->id!=$id){
 	            		$experiment_list[$row->id] = array('title'=>$row->title);
-	            	
+	            		$this->db->where('exp_id',$row->id);
+						$this->db->select_avg('rating','score');
+					    $query1 = $this->db->get('user_rating');
+	       				if($query1->num_rows() > 0)
+					    {
+					        $experiment_list[$row->id] = array('title'=>$row->title,'score'=>$query1->row()->score);
+					    }
+	       			}
 	        	}
 	    	}
 		}
@@ -300,5 +307,46 @@ class Experiment_model extends CI_Model
 		$result = $result||$this->hpcjob_info_model->experiment_has_resources($exp_id);
 		return $result;
 
+	}
+	
+	public  function add_rating($user_id,$exp_id,$score){
+		date_default_timezone_set('Asia/Shanghai');
+		$data = array(
+			'user_id' => $user_id,
+			'exp_id' =>$exp_id,
+			'rating' =>$score,
+		    'rate_time' => date("Y-m-j H:i:s"), 
+		);
+		$this->db->insert('user_rating', $data);
+		//Let it returns TRUE,in case nothing changes!
+		return TRUE;
+		if($this->db->affected_rows() > 0)
+		{
+			return TRUE;
+		}
+		return FALSE;
+	}
+	
+	public function get_user_rating($exp_id,$user_id=""){
+		//$score=0;
+		$rating_info=array();
+		$this->db->where('exp_id',$exp_id);
+		$this->db->select_avg('rating','score');
+	    $query = $this->db->get('user_rating');
+	    if($query->num_rows() > 0)
+	    {
+	        $rating_info['score']=$query->row()->score;
+	    }
+	    if($user_id){
+	    	$this->db->where('user_id',$user_id);
+	    	$this->db->where('exp_id',$exp_id);
+	    	$query = $this->db->get('user_rating');
+		    if($query->num_rows() > 0)
+		    {
+		        $rating_info['user_in']=true;
+		    }
+	    }
+	    
+	    return $rating_info;
 	}
 }

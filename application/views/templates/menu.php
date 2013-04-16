@@ -13,6 +13,7 @@
 					<a href="<?php echo base_url("home/logout");?>">退出</a>
 				</p>
 				<ul class="nav">
+					<li <?php if(!empty($menu) && $menu == "home") echo "class='active'"; ?> ><a href="<?php echo base_url("home/") ?>">首页</a></li>
 					<li <?php if(!empty($menu) && $menu == "exp") echo "class='active'"; ?> ><a href="<?php echo base_url("exp/showlist/all") ?>">实验管理</a></li>
 					<li <?php if(!empty($menu) &&$menu == "example") echo "class='active'"; ?> ><a href="<?php echo base_url("example/template") ?>">典型实验</a></li>
 					<li <?php if(!empty($menu) &&$menu == "resource") echo "class='active'"; ?> ><a href="<?php echo base_url("resource/info") ?>">资源管理</a></li>

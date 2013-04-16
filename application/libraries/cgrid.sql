@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2013 年 04 月 15 日 09:48
+-- 生成日期: 2013 年 04 月 16 日 04:04
 -- 服务器版本: 5.5.27
 -- PHP 版本: 5.4.7
 
@@ -93,7 +93,6 @@ CREATE TABLE IF NOT EXISTS `experiment` (
 -- 转存表中的数据 `experiment`
 --
 
-
 -- --------------------------------------------------------
 
 --
@@ -110,7 +109,6 @@ CREATE TABLE IF NOT EXISTS `experiment_type` (
 --
 -- 转存表中的数据 `experiment_type`
 --
-
 
 -- --------------------------------------------------------
 
@@ -158,7 +156,6 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `salt`) VALUES
 (4, 'test', 'b3e1f110084a619373feff4540891d51', 'test@test.com', '388b98c3e4a5312094b1f3a91aaed4bb59645cb4'),
 (6, 'lycc316', '98b8cd406dc90f316b329c73371838d0', 'lycc316@foxmail.com', '173278222d458320f3f05eef80bc8e5cbc6b0b6a'),
 (7, 'lyctest', 'caca58e53ba546353be50375b6afb071', 'lycctest@test.com', 'c745fefb23af297d80717637337979d40582b02d'),
-(8, 'youbinliu', 'd1e723176708c4bfbf38be3f3c01048f', 'you@126.com', '0d281ae93c9aa5e52bc90eea93ba0d23d08cead0'),
 (9, 'test001', '9b2bd8d34ab3515f6443a42a98a0e1db', 'test001@126.com', 'dc0f7a5026499b08401a03aae8a24d1d600f95bd');
 
 -- --------------------------------------------------------
@@ -172,10 +169,15 @@ CREATE TABLE IF NOT EXISTS `user_rating` (
   `user_id` int(20) DEFAULT NULL,
   `exp_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL,
+  `rate_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_rating_ibfk1` (`user_id`),
   KEY `user_rating_ibfk2` (`exp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- 转存表中的数据 `user_rating`
+--
 
 -- --------------------------------------------------------
 
@@ -199,7 +201,6 @@ CREATE TABLE IF NOT EXISTS `vm_info` (
 --
 -- 转存表中的数据 `vm_info`
 --
-
 
 --
 -- 限制导出的表

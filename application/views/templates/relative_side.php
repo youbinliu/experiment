@@ -4,7 +4,7 @@
     				<h4>相关实验</h4>
     				
     				<?php foreach ($relativexp as $eid => $exp):?>
-    							<a href="<?php echo base_url('exp/show').'/'.$eid;?>" style="display: inline"><?php echo $exp['title'];?></a>
+    							<a href="<?php echo base_url().$from.'/show/'.$eid;?>" style="display: inline"><?php echo $exp['title'];?></a>
     							<?php if(!empty($exp['score'])):?>
     								<p style="display: inline"><?php echo number_format($exp['score'],1)?></p>
     							<?php endif;?>

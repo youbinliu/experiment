@@ -133,6 +133,8 @@ class Exp extends Main_Controller {
 
 		$data['experiment'] = $content;
 		$data['relativexp'] = $relative;
+		$data['from']="exp";
+		
 		$this->load->view('include/header');
 		$this->load->view('templates/menu',$data);
 		$this->load->view('exp/showexp',$data);

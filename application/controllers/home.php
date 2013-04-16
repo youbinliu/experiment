@@ -48,6 +48,7 @@ class Home extends Main_Controller {
 		$relative = $this->experiment_model->get_experiments_relative_bystr($content->keywords,$exp_id);
 		$data['experiment'] = $content;
 		$data['relativexp'] = $relative;
+		$data['from']="home";
 		$this->load->view('homepage/homehead',$data);
 		$this->load->view('homepage/showexp',$data);
 		$this->load->view('include/footer');

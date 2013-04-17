@@ -8,6 +8,7 @@
   </div>
   <div class="modal-body">
   	<p>点击星星进行评分</p>
+  	<span class="label label-warning" style="display: none" id="waring-info">请先评分</span>
     <div id="demo2" style="display:inline"></div><script type="text/javascript">$("#demo2").rater({active:true,maxvalue:10});</script>
   </div>
   <div class="modal-footer">
@@ -18,7 +19,8 @@
 <script type="text/javascript">
 $("#submit-score").click(function(){
 	if(typeof(raterValue)=="undefined"){
-		alert("请先打分");
+		//alert("请先打分");
+		document.getElementById("waring-info").style.display="block";
 		return;
 	}
 	//alert(raterValue);
@@ -28,7 +30,7 @@ $("#submit-score").click(function(){
 	//alert(exp_id);
 	var url="<?php echo base_url();?>";
 	$.post(url+"exp/addrating",{exp:exp_id,score:raterValue},function(data){
-			alert("评分成功");
+			//alert("评分成功");
 			document.getElementById("rating-close").click();
 			location.reload() 
 	});

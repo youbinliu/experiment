@@ -207,7 +207,8 @@ class Exp extends Main_Controller {
 					'describe' => $this->input->post('experiment_describe'),
 					'tools' => $this->input->post('experiment_tools'),
 					'result' => $this->input->post('experiment_result'),
-					'papers' => $this->input->post('experiment_papers')
+					'papers' => $this->input->post('experiment_papers'),
+					'keywords' => $this->input->post('experiment_keyword')
 					);
 		     if($this->experiment_model->update_experiment($id,$user_id,$para))
 		     {
